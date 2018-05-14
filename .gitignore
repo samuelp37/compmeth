@@ -1,0 +1,3 @@
+src/CUDAProject
+!src/CUDAProject/CUDAProject/*.cu
+!src/CUDAProject/CUDAProject/*.cpp
