@@ -1,4 +1,9 @@
 #include <stdlib.h>
+#include <time.h>
+
+void init_random(){
+	srand(time(NULL));
+}
 
 void random_ints(int *a, int n)
 {
