@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "random_generator.h"
 #include "vectorized_operation.h"
 #include "IOTests.h"
@@ -41,7 +42,7 @@ void perform_IOTests(){
 	int *a;
 	int size;
 
-	for (int nb = 1000; nb < 100000000; nb = nb + 1000000){
+	for (int nb = 1; nb < 1000000000; nb = nb * 2){
 
 		size = nb*sizeof(int);
 		a = (int *)malloc(size);
@@ -60,5 +61,19 @@ void perform_IOTests(){
 
 		free(a);
 	}
+
+}
+
+void advanced_IOTests(){
+
+	const unsigned int nb = 1048576;
+	const unsigned int bytes = nb * sizeof(int);
+	int *h_a = (int*)malloc(bytes);
+	int *d_a;
+	cudaMalloc((int**)&d_a, bytes);
+
+	memset(h_a, 0, bytes);
+	cudaMemcpy(d_a, h_a, bytes, cudaMemcpyHostToDevice);
+	cudaMemcpy(h_a, d_a, bytes, cudaMemcpyDeviceToHost);
 
 }
