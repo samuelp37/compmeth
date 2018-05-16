@@ -5,5 +5,5 @@ extern void cuda_computeAddition_advanced(int *a, int *b, int *c, int n, int m);
 
 int main(int argc, const char* argv[])
 {
-	perform_IOTests();
+	advanced_IOTests();
 }

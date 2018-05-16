@@ -66,14 +66,34 @@ void perform_IOTests(){
 
 void advanced_IOTests(){
 
-	const unsigned int nb = 1048576;
-	const unsigned int bytes = nb * sizeof(int);
-	int *h_a = (int*)malloc(bytes);
-	int *d_a;
-	cudaMalloc((int**)&d_a, bytes);
+	FILE *f = fopen("result_without_malloc.txt", "a");
+	printf("Bytes: Upload time (s) : Download time (s)\n");
+	fprintf(f,"Bytes: Upload time (s) : Download time (s)\n");
+	fclose(f);
 
-	memset(h_a, 0, bytes);
-	cudaMemcpy(d_a, h_a, bytes, cudaMemcpyHostToDevice);
-	cudaMemcpy(h_a, d_a, bytes, cudaMemcpyDeviceToHost);
+	for (int nb = 1; nb < 10000000000; nb = nb * 2){
 
+		const unsigned int bytes = nb * sizeof(int);
+		int *h_a = (int*)malloc(bytes);
+		int *d_a;
+		cudaMalloc((int**)&d_a, bytes);
+
+		memset(h_a, 0, bytes);
+		clock_t t;
+		t = clock();
+		cudaMemcpy(d_a, h_a, bytes, cudaMemcpyHostToDevice);
+		t = clock() - t;
+		double time_upload = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+		t = clock();
+		cudaMemcpy(h_a, d_a, bytes, cudaMemcpyDeviceToHost);
+		t = clock() - t;
+		double time_download = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+		FILE *f = fopen("result_without_malloc.txt", "a");
+		printf("%d: %f : %f\n", bytes, time_upload, time_download);
+		fprintf(f, "%d: %f : %f\n", bytes, time_upload,time_download);
+		fclose(f);
+	}
+	
 }
