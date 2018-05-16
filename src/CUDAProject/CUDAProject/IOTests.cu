@@ -1,6 +1,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <stdio.h>
+#include <assert.h>
 #include "device_launch_parameters.h"
 
 extern void cuda_upload(int *a, int N){

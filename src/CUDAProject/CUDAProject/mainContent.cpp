@@ -94,6 +94,63 @@ void advanced_IOTests(){
 		printf("%d: %f : %f\n", bytes, time_upload, time_download);
 		fprintf(f, "%d: %f : %f\n", bytes, time_upload,time_download);
 		fclose(f);
+
+		cudaFree(d_a);
+		free(h_a);
 	}
 	
+}
+
+void advanced_pinned_IOTests(){
+
+	FILE *f = fopen("result_pinned.txt", "a");
+	fprintf(f, "Advanced IO Test with pinned memory\n");
+	printf("Bytes: Upload time (s) : Download time (s) : Upload time pinned (s) : Download time pinned (s)\n");
+	fprintf(f, "Bytes: Upload time (s) : Download time (s) : Upload time pinned (s) : Download time pinned (s)\n");
+	fclose(f);
+
+	for (int nb = 1000; nb < 300000000; nb = nb + 5000000){
+
+		const unsigned int bytes = nb * sizeof(int);
+		int *h_aPinned;
+		int *d_a, *h_a;
+
+		h_a = (int*)malloc(bytes);
+		cudaMallocHost((void**)&h_aPinned, bytes);
+		cudaMalloc((void**)&d_a, bytes);
+
+		for (int i = 0; i < nb; ++i) h_a[i] = i;
+		memcpy(h_aPinned, h_a, bytes);
+
+		clock_t t;
+		t = clock();
+		cudaMemcpy(d_a, h_a, bytes, cudaMemcpyHostToDevice);
+		t = clock() - t;
+		double time_upload = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+		t = clock();
+		cudaMemcpy(h_a, d_a, bytes, cudaMemcpyDeviceToHost);
+		t = clock() - t;
+		double time_download = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+		t = clock();
+		cudaMemcpy(d_a, h_aPinned, bytes, cudaMemcpyHostToDevice);
+		t = clock() - t;
+		double time_upload_pinned = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+		t = clock();
+		cudaMemcpy(h_aPinned, d_a, bytes, cudaMemcpyDeviceToHost);
+		t = clock() - t;
+		double time_download_pinned = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+		FILE *f = fopen("result_pinned.txt", "a");
+		printf("%d: %f : %f : %f : %f\n", bytes, time_upload, time_download, time_upload_pinned, time_download_pinned);
+		fprintf(f, "%d: %f : %f : %f : %f\n", bytes, time_upload, time_download, time_upload_pinned, time_download_pinned);
+		fclose(f);
+
+		free(h_a);
+		cudaFreeHost(h_aPinned);
+		cudaFree(d_a);
+	}
+
 }
