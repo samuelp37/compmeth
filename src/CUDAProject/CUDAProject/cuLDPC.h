@@ -101,6 +101,6 @@ typedef struct
 	char valid;
 } h_element;
 
-#endif
-
 int mainOfLDPC();
+
+#endif

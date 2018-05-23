@@ -15,7 +15,7 @@ Revision:	08/01/2013
 // CUDA runtime
 #include <cuda_runtime.h>
 // helper functions and utilities to work with CUDA
-//#include "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v9.1/common/inc/helper_cuda.h"
+#include "helper_cuda.h"
 
 // custom header file
 #include "cuLDPC.h"

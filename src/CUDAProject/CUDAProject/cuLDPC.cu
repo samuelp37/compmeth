@@ -21,8 +21,8 @@ Revision:	08/01/2013
 
 // CUDA runtime
 #include <cuda_runtime.h>
-#include "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v9.1/common/inc/helper_cuda.h"
-#include "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v9.1/common/inc/timer.h"
+#include "helper_cuda.h"
+#include "timer.h"
 
 #include "cuLDPC.h"
 #include "cuLDPC_matrix.h"
@@ -33,6 +33,7 @@ float snr;
 long seed;
 float rate;
 int iter;
+float cpu_run_time = 0.0;
 
 // Extern function and variable definition
 extern "C"
@@ -396,14 +397,14 @@ int runTest()
 					for (int ii = 0; ii < MAX_ITERATION; ii++)
 					{
 						if (ii == 0)
-							ldpc_cnp_kernel_1st_iter <<<dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
+							ldpc_cnp_kernel_1st_iter <<< dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
 						else
-							ldpc_cnp_kernel <<<dimGridKernel1, dimBlockKernel1, sharedRCacheSize, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt], threadsPerBlockKernel1);
+							ldpc_cnp_kernel <<< dimGridKernel1, dimBlockKernel1, sharedRCacheSize, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt], threadsPerBlockKernel1);
 
 						if (ii < MAX_ITERATION - 1)
-							ldpc_vnp_kernel_normal <<<dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_et[iSt]);
+							ldpc_vnp_kernel_normal <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_et[iSt]);
 						else
-							ldpc_vnp_kernel_last_iter <<<dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
+							ldpc_vnp_kernel_last_iter <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
 					}
 
 					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
