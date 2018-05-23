@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cuLDPC.h" />
+    <ClInclude Include="cuLDPC_kernel.h" />
     <ClInclude Include="cuLDPC_matrix.h" />
     <ClInclude Include="IOTests.h" />
     <ClInclude Include="mainContent.h" />

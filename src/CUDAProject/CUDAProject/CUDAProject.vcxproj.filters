@@ -47,6 +47,9 @@
     <ClInclude Include="cuLDPC_matrix.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="cuLDPC_kernel.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="vectorized_operation.cu">

@@ -1,63 +1,6 @@
-﻿La génération a démarré 23/05/2018 09:26:16.
+﻿La génération a démarré 23/05/2018 12:08:21.
      1>Projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:3) sur le nœud 1 (CudaBuildCore cible(s)).
-     1>CudaBuildCore:
-         Compiling CUDA source file cuLDPC_kernel.cu...
-         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmp34ffc74079ab4072b4416dae34176289.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC_kernel.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC_kernel.cu"
-     1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:4) sur le nœud 2 (CudaBuildCore cible(s)).
-     1>CudaBuildCore:
-         Compiling CUDA source file vectorized_operation.cu...
-     1>CudaBuildCore:
-         
-         D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC_kernel.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC_kernel.cu" 
-     1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:5) sur le nœud 3 (CudaBuildCore cible(s)).
-     1>CudaBuildCore:
-         Compiling CUDA source file filters.cu...
-     1>CudaBuildCore:
-         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmpbab5c5e8d5054835bdef3541ea926ba2.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\vectorized_operation.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\vectorized_operation.cu"
-     1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:6) sur le nœud 4 (CudaBuildCore cible(s)).
-     1>CudaBuildCore:
-         Compiling CUDA source file IOTests.cu...
-     1>CudaBuildCore:
-         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmpd410fd278fcb4e658dc9a4c8eb111135.cmd"
-     1>CudaBuildCore:
-         
-     1>CudaBuildCore:
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\filters.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\filters.cu"
-     1>CudaBuildCore:
-         D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\vectorized_operation.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\vectorized_operation.cu" 
-     1>CudaBuildCore:
-         
-         D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\filters.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\filters.cu" 
-     1>CudaBuildCore:
-         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmp45da22682b7d412890271a7db87669dd.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\IOTests.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\IOTests.cu"
-         
-         D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\IOTests.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\IOTests.cu" 
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC_kernel.cu(51): warning : variable "tmp" was declared but never referenced
-     1>CudaBuildCore:
-         vectorized_operation.cu
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC_kernel.cu(51): warning : variable "tmp" was declared but never referenced
-         cuLDPC_kernel.cu
-     1>CudaBuildCore:
-         filters.cu
-     1>CudaBuildCore:
-         IOTests.cu
-     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
-     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
-     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
-     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
-     1>ClCompile:
-         D:\appli\Microsoft Visual Studio\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cuLDPC_CPU.cpp main.cpp mainContent.cpp random_generator.cpp
-         random_generator.cpp
-     1>d:\data\travail\samuel\eurecom_2a\compmeth\proj\src\cudaproject\cudaproject\random_generator.cpp(5): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
-         mainContent.cpp
-         main.cpp
-         cuLDPC_CPU.cpp
-         Génération de code en cours...
-       Link:
+     1>Link:
          D:\appli\Microsoft Visual Studio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib cuda.lib cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.lib" /MACHINE:X86 Debug\cuLDPC.cu.obj
          Debug\cuLDPC_kernel.cu.obj
          Debug\filters.cu.obj
@@ -67,20 +10,9 @@
          Debug\main.obj
          Debug\mainContent.obj
          Debug\random_generator.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "float __cdecl F_FUCN_MIN_SUM_DEV(float,float)" (?F_FUCN_MIN_SUM_DEV@@YAMMM@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl ldpc_cnp_kernel_1st_iter(float *,float *,float *,int *)" (?ldpc_cnp_kernel_1st_iter@@YAXPAM00PAH@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl ldpc_cnp_kernel(float *,float *,float *,int *,int)" (?ldpc_cnp_kernel@@YAXPAM00PAHH@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl ldpc_vnp_kernel_normal(float *,float *,int *)" (?ldpc_vnp_kernel_normal@@YAXPAM0PAH@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl ldpc_vnp_kernel_last_iter(float *,float *,int *,int *)" (?ldpc_vnp_kernel_last_iter@@YAXPAM0PAH1@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl ldpc_decoder_kernel3_early_termination(int *,int *)" (?ldpc_decoder_kernel3_early_termination@@YAXPAH0@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl __device_stub__Z24ldpc_cnp_kernel_1st_iterPfS_S_Pi(float *,float *,float *,int *)" (?__device_stub__Z24ldpc_cnp_kernel_1st_iterPfS_S_Pi@@YAXPAM00PAH@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl __device_stub__Z15ldpc_cnp_kernelPfS_S_Pii(float *,float *,float *,int *,int)" (?__device_stub__Z15ldpc_cnp_kernelPfS_S_Pii@@YAXPAM00PAHH@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl __device_stub__Z22ldpc_vnp_kernel_normalPfS_Pi(float *,float *,int *)" (?__device_stub__Z22ldpc_vnp_kernel_normalPfS_Pi@@YAXPAM0PAH@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl __device_stub__Z25ldpc_vnp_kernel_last_iterPfS_PiS0_(float *,float *,int *,int *)" (?__device_stub__Z25ldpc_vnp_kernel_last_iterPfS_PiS0_@@YAXPAM0PAH1@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>cuLDPC_kernel.cu.obj : error LNK2005: "void __cdecl __device_stub__Z38ldpc_decoder_kernel3_early_terminationPiS_(int *,int *)" (?__device_stub__Z38ldpc_decoder_kernel3_early_terminationPiS_@@YAXPAH0@Z) dÚjÓ dÚfini(e) dans cuLDPC.cu.obj
-     1>D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe : fatal error LNK1169: un ou plusieurs symboles dÚfinis Ó diffÚrentes reprises ont ÚtÚ rencontrÚs
-     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (Build cible(s)) -- ÉCHEC.
+         CUDAProject.vcxproj -> D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe
+     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (Build cible(s)).
 
-ÉCHEC de la build.
+La génération a réussi.
 
-Temps écoulé 00:00:06.01
+Temps écoulé 00:00:00.47

@@ -26,7 +26,7 @@ Revision:	08/01/2013
 
 #include "cuLDPC.h"
 #include "cuLDPC_matrix.h"
-#include "cuLDPC_kernel.cu"
+#include "cuLDPC_kernel.h"
 #include "device_launch_parameters.h"
 
 float snr;
@@ -49,6 +49,8 @@ extern "C"
 
 	float sigma;
 	int *info_bin;
+	FILE * gfp;
+
 };
 
 
@@ -97,10 +99,16 @@ int printDevices()
 
 int mainOfLDPC()
 {
+	gfp = fopen("test.txt", "w");
 	printf("CUDA LDPC Decoder\r\nComputing...\r\n");
-	//printDevices();
+	printDevices();
 	cudaSetDevice(DEVICE_ID);
+
+	printf("Beginning the algorithm...\r\n");
 	runTest();
+	printf("End of the algorithm...\r\n");
+	fclose(gfp);
+
 	return 0;
 }
 
@@ -124,7 +132,8 @@ int runTest()
 		}
 	}
 
-	// scan the h matrix, and gengerate compact mode of h
+	// scan the h matrix, and generate compact mode of h
+	// making compact copy of h_base (in cuLDPC_matrix.h) without taking -1 into account (meaning that former -1 element remains invalid in the new matrix)
 	for (int i = 0; i < BLK_ROW; i++)
 	{
 		int k = 0;
@@ -176,6 +185,8 @@ int runTest()
 		}
 	}
 
+	printf("H matrices generated \r\n");
+
 	//int memorySize_h_base = BLK_ROW * BLK_COL * sizeof(int);
 	int memorySize_h_compact1 = H_COMPACT1_ROW * H_COMPACT1_COL * sizeof(h_element);
 	int memorySize_h_compact2 = H_COMPACT2_ROW * H_COMPACT2_COL * sizeof(h_element);
@@ -224,8 +235,17 @@ int runTest()
 	for (int i = 0; i < NSTREAMS; i++)
 	{
 		info_bin_cuda[i] = (int *)malloc(memorySize_infobits_cuda);
+
+		printf("allocating in pinned memory \r\n");
+
+		// allocate float[] in pinned memory to send to the gpu
 		checkCudaErrors(cudaHostAlloc((void **)&llr_cuda[i], memorySize_llr_cuda, cudaHostAllocDefault));
+
+		// allocate int[] in pinned memory to get results from gpu
 		checkCudaErrors(cudaHostAlloc((void **)&hard_decision_cuda[i], memorySize_hard_decision_cuda, cudaHostAllocDefault));
+	
+		printf("copy finished \r\n");
+
 	}
 #else // pageable memory
 	hard_decision_cuda = (int *)malloc(memorySize_hard_decision_cuda);
@@ -251,11 +271,14 @@ int runTest()
 
 	for (int i = 0; i < NSTREAMS; i++)
 	{
-		checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda));
+		// allocation on device side
+		checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda)); // float[] input
 		checkCudaErrors(cudaMalloc((void **)&dev_dt[i], memorySize_dt_cuda));
 		checkCudaErrors(cudaMalloc((void **)&dev_R[i], memorySize_R_cuda));
-		checkCudaErrors(cudaMalloc((void **)&dev_hard_decision[i], memorySize_hard_decision_cuda));
+		checkCudaErrors(cudaMalloc((void **)&dev_hard_decision[i], memorySize_hard_decision_cuda)); // int[] results
 		checkCudaErrors(cudaMalloc((void **)&dev_et[i], memorySize_et_cuda));
+		printf("Allocation in device done \r\n");
+
 	}
 
 	for (int snri = 0; snri < NUM_SNR; snri++)
@@ -275,19 +298,20 @@ int runTest()
 		{
 			total_codeword += CW * MCW;
 
+			// simulationg input channel
 			for (int i = 0; i < CW * MCW; i++)
 			{
 				// Generating random data
 				info_gen(info_bin);
 				// Encoding
 				structure_encode(info_bin, codeword, h_base);
-				// BPSK modulation
+				// BPSK modulation = IMPORTANT
 				modulation(codeword, trans);
 				// Add noise
 				awgn(trans, recv);
 
 #ifdef PRINT_MSG
-				// Error check
+				// Error check -> remember BPSK
 				error_check(trans, recv);
 #endif
 				// LLR init
@@ -295,10 +319,16 @@ int runTest()
 				// copy the info_bin and llr to the total memory
 				for (int j = 0; j < NSTREAMS; j++)
 				{
+					// infobin should contain the basic content i want to transmit (before modulation (we normally don't allocate on the gpu for that) -> to check
+					// for the moment, we allocate that in the pinned memory : why ?
 					memcpy(info_bin_cuda[j] + i * INFO_LEN, info_bin, memorySize_infobits);
+
+					// allocate llr in the pinned memory side
 					memcpy(llr_cuda[j] + i * CODEWORD_LEN, llr, memorySize_llr);
 				}
 			}
+			printf("Data generated and ready to be sent \r\n");
+
 
 #if MEASURE_CUDA_TIME == 1
 			// start the timer
@@ -359,6 +389,7 @@ int runTest()
 #if USE_PINNED_MEM == 1
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
 				{
+					// copying from pinned memory in host side to cuda memory
 					checkCudaErrors(cudaMemcpyAsync(dev_llr[iSt], llr_cuda[iSt], memorySize_llr_cuda, cudaMemcpyHostToDevice, streams[iSt]));
 					cudaStreamSynchronize(streams[iSt]);
 				}
@@ -394,6 +425,7 @@ int runTest()
 					checkCudaErrors(cudaMemcpyAsync(dev_llr[iSt], llr_cuda[iSt], memorySize_llr_cuda, cudaMemcpyHostToDevice, streams[iSt]));
 
 					// kernel launch
+					// Doing the algorithm
 					for (int ii = 0; ii < MAX_ITERATION; ii++)
 					{
 						if (ii == 0)
@@ -407,6 +439,7 @@ int runTest()
 							ldpc_vnp_kernel_last_iter <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
 					}
 
+					// getting the hard decision back to the host
 					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
 
 
