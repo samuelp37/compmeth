@@ -24,6 +24,9 @@
     <ClCompile Include="mainContent.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="cuLDPC_CPU.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="random_generator.h">
@@ -38,6 +41,12 @@
     <ClInclude Include="IOTests.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="cuLDPC.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="cuLDPC_matrix.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="vectorized_operation.cu">
@@ -47,6 +56,12 @@
       <Filter>Fichiers sources</Filter>
     </CudaCompile>
     <CudaCompile Include="IOTests.cu">
+      <Filter>Fichiers sources</Filter>
+    </CudaCompile>
+    <CudaCompile Include="cuLDPC.cu">
+      <Filter>Fichiers sources</Filter>
+    </CudaCompile>
+    <CudaCompile Include="cuLDPC_kernel.cu">
       <Filter>Fichiers sources</Filter>
     </CudaCompile>
   </ItemGroup>

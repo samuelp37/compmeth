@@ -1,15 +1,18 @@
-﻿La génération a démarré 16/05/2018 11:32:11.
-     1>Projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>Link:
-         D:\appli\Microsoft Visual Studio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib cuda.lib cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.lib" /MACHINE:X86 Debug\filters.cu.obj
-         Debug\IOTests.cu.obj
-         Debug\vectorized_operation.cu.obj
-         Debug\main.obj
-         Debug\mainContent.obj
-         Debug\random_generator.obj
-         CUDAProject.vcxproj -> D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe
-     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (Build cible(s)).
+﻿La génération a démarré 23/05/2018 08:57:18.
+     1>Projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" sur le nœud 2 (CudaBuild cible(s)).
+     1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:2) sur le nœud 2 (CudaBuildCore cible(s)).
+     1>CudaBuildCore:
+         Compiling CUDA source file cuLDPC.cu...
+         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmp84bfa3a491b7464eb28e74ad3dc116c0.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu"
+         
+         D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu" 
+     1>C:/ProgramData/NVIDIA Corporation/CUDA Samples/v9.1/common/inc/helper_cuda.h(24): fatal error C1083: Impossible d'ouvrir le fichier includeá: 'helper_string.h'á: No such file or directory
+         cuLDPC.cu
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\BuildCustomizations\CUDA 9.1.targets(707,9): error MSB3721: La commande ""C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu"" s'est arrêtée avec le code 2.
+     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)) -- ÉCHEC.
+     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuild cible(s)) -- ÉCHEC.
 
-La génération a réussi.
+ÉCHEC de la build.
 
-Temps écoulé 00:00:00.23
+Temps écoulé 00:00:01.68

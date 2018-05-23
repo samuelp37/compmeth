@@ -68,16 +68,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cuLDPC_CPU.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainContent.cpp" />
     <ClCompile Include="random_generator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="cuLDPC.cu" />
+    <CudaCompile Include="cuLDPC_kernel.cu" />
     <CudaCompile Include="filters.cu" />
     <CudaCompile Include="IOTests.cu" />
     <CudaCompile Include="vectorized_operation.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cuLDPC.h" />
+    <ClInclude Include="cuLDPC_matrix.h" />
     <ClInclude Include="IOTests.h" />
     <ClInclude Include="mainContent.h" />
     <ClInclude Include="random_generator.h" />

@@ -5,6 +5,7 @@
 #include "random_generator.h"
 #include "vectorized_operation.h"
 #include "IOTests.h"
+#include "cuLDPC.h"
 
 #define N 3580 // size of the vector	
 #define M 512 // threads per blocks
@@ -153,4 +154,8 @@ void advanced_pinned_IOTests(){
 		cudaFree(d_a);
 	}
 
+}
+
+void testLDPC(){
+	mainOfLDPC();
 }
