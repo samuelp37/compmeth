@@ -296,6 +296,8 @@ int runTest()
 		// In this version code, I don't care the BER performance, so don't need this loop.
 		while ((total_frame_error <= MIN_FER) && (total_codeword <= MIN_CODEWORD))
 		{
+
+			printf("New iter\n");
 			total_codeword += CW * MCW;
 
 			// simulationg input channel
@@ -377,6 +379,7 @@ int runTest()
 			StartTimer();
 #endif
 
+			printf("Beginning running the kernel \r\n");
 			// run the kernel
 			for (int j = 0; j < MAX_SIM; j++)
 			{
@@ -385,6 +388,7 @@ int runTest()
 				//cudaEventSynchronize(start_h2d);
 #endif
 
+				printf("Transfering LLR data into device \r\n");
 				// Transfer LLR data into device.
 #if USE_PINNED_MEM == 1
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
@@ -420,6 +424,8 @@ int runTest()
 				time_memset += time_memset_temp;
 #endif
 
+				printf("Performing computations in device part \r\n");
+
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
 				{
 					checkCudaErrors(cudaMemcpyAsync(dev_llr[iSt], llr_cuda[iSt], memorySize_llr_cuda, cudaMemcpyHostToDevice, streams[iSt]));
@@ -428,6 +434,7 @@ int runTest()
 					// Doing the algorithm
 					for (int ii = 0; ii < MAX_ITERATION; ii++)
 					{
+						printf("New iteration computation in device part \r\n");
 						if (ii == 0)
 							ldpc_cnp_kernel_1st_iter <<< dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
 						else
@@ -439,6 +446,7 @@ int runTest()
 							ldpc_vnp_kernel_last_iter <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
 					}
 
+					printf("Getting the hard decision back to the host \r\n");
 					// getting the hard decision back to the host
 					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
 
