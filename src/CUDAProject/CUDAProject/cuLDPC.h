@@ -41,7 +41,7 @@ static float snr_array[NUM_SNR] = { 1.0f };
 
 // begin debug
 #define	DEBUG_FILE	NO
-#define PRINT_MSG	YES
+#define PRINT_MSG	NO
 // end debug
 
 // Performance optimizations

@@ -35,6 +35,13 @@ float rate;
 int iter;
 float cpu_run_time = 0.0;
 
+cudaEvent_t start_kernel, stop_kernel, start_h2d, stop_h2d, start_d2h, stop_d2h;
+cudaEvent_t start_memset, stop_memset;
+float time_kernel = 0.0, time_kernel_temp = 0.0;
+float time_h2d = 0.0, time_h2d_temp = 0.0;
+float time_d2h = 0.0, time_d2h_temp = 0.0;
+float time_memset = 0.0f, time_memset_temp = 0.0;
+
 // Extern function and variable definition
 extern "C"
 {
@@ -91,7 +98,7 @@ int printDevices()
 	printf("device deviceOverlap: %d \n", deviceProperty.deviceOverlap);
 	printf("device multiProcessorCount: %d \n", deviceProperty.multiProcessorCount);
 	printf("device zero-copy data transfers: %d \n", deviceProperty.canMapHostMemory);
-
+		
 	printf("\n");
 	return cudaSuccess;
 }
@@ -334,8 +341,8 @@ int runTest()
 
 #if MEASURE_CUDA_TIME == 1
 			// start the timer
-			cudaEvent_t start_kernel, stop_kernel, start_h2d, stop_h2d, start_d2h, stop_d2h;
-			cudaEvent_t start_memset, stop_memset;
+			//cudaEvent_t start_kernel, stop_kernel, start_h2d, stop_h2d, start_d2h, stop_d2h;
+			//cudaEvent_t start_memset, stop_memset;
 			cudaEventCreate(&start_kernel);
 			cudaEventCreate(&stop_kernel);
 			cudaEventCreate(&start_h2d);
@@ -345,10 +352,6 @@ int runTest()
 			cudaEventCreate(&start_memset);
 			cudaEventCreate(&stop_memset);
 
-			float time_kernel = 0.0, time_kernel_temp = 0.0;
-			float time_h2d = 0.0, time_h2d_temp = 0.0;
-			float time_d2h = 0.0, time_d2h_temp = 0.0;
-			float time_memset = 0.0f, time_memset_temp = 0.0;
 #endif
 
 			// Since for all the simulation, this part only transfer once. 
