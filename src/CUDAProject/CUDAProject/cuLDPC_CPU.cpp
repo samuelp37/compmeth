@@ -22,12 +22,14 @@ Revision:	08/01/2013
 
 extern "C"
 {
+	void floatToQ8(float* llr, char* llrQ8, int N);
 	void structure_encode(int s[], int code[], int h[BLK_ROW][BLK_COL]);
 	void info_gen(int info_bin[]);
 	void modulation(int code[], float trans[]);
 	void awgn(float trans[], float recv[]);
 	void error_check(float trans[], float recv[]);
 	void llr_init(float llr[], float recv[]);
+	void llr_init_Q8(char llr[], float recv[]);
 	int parity_check(float app[]);
 	error_result cuda_error_check(int info[], int hard_decision[]);
 };
@@ -37,6 +39,14 @@ extern "C"
 extern "C" float sigma;
 extern "C" int *info_bin;
 extern "C" FILE * gfp;
+
+//===================================
+// Ensure conversion float to Q8 representation
+//===================================
+char floatToQ8(float llr){
+	return (char) llr*pow(2, 8);
+}
+
 
 //===================================
 // Random info data generation
@@ -152,6 +162,35 @@ void llr_init(float llr[], float recv[])
 #endif
 }
 
+
+//===================================
+// calc LLRs with Q8 conversion
+//===================================
+void llr_init_Q8(char llr[], float recv[])
+{
+	int i;
+#if PRINT_MSG == 1
+	FILE * fp;
+#endif
+	float llr_rev;
+
+#if PRINT_MSG == 1
+	fp = fopen("llr_fp.dat", "w");
+#endif
+
+	for (i = 0; i < CODEWORD_LEN; i++)
+	{
+		llr_rev = (recv[i] * 2) / (sigma*sigma);	// 2r/sigma^2 ;
+		llr[i] = floatToQ8(llr_rev);
+
+#if PRINT_MSG == 1
+		fprintf(fp, "recv[%d] = %f, LLR [%d] = %f\n", i, recv[i], i, llr[i]);
+#endif
+	}
+#if PRINT_MSG == 1
+	fclose(fp);
+#endif
+}
 
 //===================================
 // parity check

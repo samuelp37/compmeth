@@ -47,6 +47,16 @@ __device__ float F_FUCN_MIN_SUM_DEV(float a, float b)
 
 // Kernel 1
 __global__ void
+conversion_Q8_float(float * dev_llr, char* dev_llr_char)
+{
+	int data_nb = MCW *  CW * CODEWORD_LEN;
+	for (int j = 0; j < data_nb; j++){
+		dev_llr[j] = (float) dev_llr_char[j]*(1.0/256.0);
+	}
+}
+
+// Kernel 1
+__global__ void
 ldpc_cnp_kernel_1st_iter(float * dev_llr, float * dev_dt, float * dev_R, int * dev_et)
 {
 #if MODE == WIFI

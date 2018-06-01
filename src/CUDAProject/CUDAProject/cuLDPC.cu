@@ -51,6 +51,7 @@ extern "C"
 	void awgn(float trans[], float recv[]);
 	void error_check(float trans[], float recv[]);
 	void llr_init(float llr[], float recv[]);
+	void llr_init_Q8(char llr[], float recv[]);
 	int parity_check(float app[]);
 	error_result cuda_error_check(int info[], int hard_decision[]);
 
@@ -200,17 +201,29 @@ int runTest()
 
 	int memorySize_infobits = INFO_LEN * sizeof(int);
 	int memorySize_codeword = CODEWORD_LEN * sizeof(int);
-	int memorySize_llr = CODEWORD_LEN * sizeof(float);
+
+	int memorySize_llr_float = CODEWORD_LEN * sizeof(float);
+
+	#if Q8_CONVERSION == 1
+		int memorySize_llr = CODEWORD_LEN * sizeof(char);
+	#else
+		int memorySize_llr = CODEWORD_LEN * sizeof(float);
+	#endif
 
 	int memorySize_et = MCW * CW * sizeof(int);
 
 	info_bin = (int *)malloc(memorySize_infobits);
 	int *codeword = (int *)malloc(memorySize_codeword);
-	float *trans = (float *)malloc(memorySize_llr);
-	float *recv = (float *)malloc(memorySize_llr);
-	float *APP = (float *)malloc(memorySize_llr);
+	float *trans = (float *)malloc(memorySize_llr_float);
+	float *recv = (float *)malloc(memorySize_llr_float);
+	float *APP = (float *)malloc(memorySize_llr_float);
 
-	float *llr = (float *)malloc(memorySize_llr);
+	#if Q8_CONVERSION == 1
+		char *llr = (char *)malloc(memorySize_llr);
+	#else
+		float *llr = (float *)malloc(memorySize_llr);
+	#endif
+
 	int * et = (int*)malloc(memorySize_et);
 
 	rate = (float)0.5f;
@@ -227,14 +240,27 @@ int runTest()
 	//////////////////////////////////////////////////////////////////////////////////
 	// all the variables Starting with _cuda is used in host code and for cuda computation
 	int memorySize_infobits_cuda = MCW * CW * memorySize_infobits;
-	int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(float);
+	int memorySize_llr_cuda_float = MCW *  CW * CODEWORD_LEN * sizeof(float);
+
+	#if Q8_CONVERSION == 1
+		int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(char);
+	#else
+		int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(float);
+	#endif
+
 	int memorySize_dt_cuda = MCW *  CW * ROW * BLK_COL * sizeof(float);
 	int memorySize_R_cuda = MCW *  CW * ROW * BLK_COL * sizeof(float);
 	int memorySize_hard_decision_cuda = MCW * CW * CODEWORD_LEN * sizeof(int);
 	int memorySize_et_cuda = MCW * CW * sizeof(int);
 
 	int *info_bin_cuda[NSTREAMS];
-	float *llr_cuda[NSTREAMS];
+
+	#if Q8_CONVERSION == 1
+		char *llr_cuda[NSTREAMS];
+	#else
+		float *llr_cuda[NSTREAMS];
+	#endif
+
 	int * hard_decision_cuda[NSTREAMS];
 
 	// Allocate pinned memory for llr and hard_decision data.
@@ -260,7 +286,13 @@ int runTest()
 #endif
 
 	// create device memory
-	float * dev_llr[NSTREAMS];
+	#if Q8_CONVERSION == 1
+		char * dev_llr[NSTREAMS];
+		float * dev_llr_float[NSTREAMS];
+	#else
+		float * dev_llr[NSTREAMS];
+	#endif
+
 	float * dev_dt[NSTREAMS];
 	float * dev_R[NSTREAMS];
 	int * dev_hard_decision[NSTREAMS];
@@ -280,6 +312,9 @@ int runTest()
 	{
 		// allocation on device side
 		checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda)); // float[] input
+		#if Q8_CONVERSION == 1
+			checkCudaErrors(cudaMalloc((void **)&dev_llr_float[i], memorySize_llr_cuda_float)); // float[] input
+		#endif
 		checkCudaErrors(cudaMalloc((void **)&dev_dt[i], memorySize_dt_cuda));
 		checkCudaErrors(cudaMalloc((void **)&dev_R[i], memorySize_R_cuda));
 		checkCudaErrors(cudaMalloc((void **)&dev_hard_decision[i], memorySize_hard_decision_cuda)); // int[] results
@@ -324,7 +359,12 @@ int runTest()
 				error_check(trans, recv);
 #endif
 				// LLR init
-				llr_init(llr, recv);
+				#if Q8_CONVERSION == 1
+					llr_init_Q8(llr, recv);
+				#else
+					llr_init(llr, recv);
+				#endif
+		
 				// copy the info_bin and llr to the total memory
 				for (int j = 0; j < NSTREAMS; j++)
 				{
@@ -437,19 +477,33 @@ int runTest()
 					// Doing the algorithm
 					for (int ii = 0; ii < MAX_ITERATION; ii++)
 					{
-						printf("New iteration computation in device part \r\n");
-						if (ii == 0)
-							ldpc_cnp_kernel_1st_iter <<< dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
-						else
-							ldpc_cnp_kernel <<< dimGridKernel1, dimBlockKernel1, sharedRCacheSize, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt], threadsPerBlockKernel1);
 
-						if (ii < MAX_ITERATION - 1)
-							ldpc_vnp_kernel_normal <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_et[iSt]);
-						else
-							ldpc_vnp_kernel_last_iter <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
+						#if Q8_CONVERSION == 1
+
+							if (ii == 0){
+								conversion_Q8_float << < dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >> >(dev_llr_float[iSt], dev_llr[iSt]);
+								ldpc_cnp_kernel_1st_iter << < dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >> >(dev_llr_float[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
+							}
+							else
+								ldpc_cnp_kernel <<< dimGridKernel1, dimBlockKernel1, sharedRCacheSize, streams[iSt] >>>(dev_llr_float[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt], threadsPerBlockKernel1);
+
+							if (ii < MAX_ITERATION - 1)
+								ldpc_vnp_kernel_normal <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr_float[iSt], dev_dt[iSt], dev_et[iSt]);
+							else
+								ldpc_vnp_kernel_last_iter <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr_float[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
+						#else
+							if (ii == 0)
+								ldpc_cnp_kernel_1st_iter << < dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >> >(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
+							else
+								ldpc_cnp_kernel << < dimGridKernel1, dimBlockKernel1, sharedRCacheSize, streams[iSt] >> >(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt], threadsPerBlockKernel1);
+
+							if (ii < MAX_ITERATION - 1)
+								ldpc_vnp_kernel_normal << < dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >> >(dev_llr[iSt], dev_dt[iSt], dev_et[iSt]);
+							else
+								ldpc_vnp_kernel_last_iter << < dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >> >(dev_llr[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
+						#endif
 					}
 
-					printf("Getting the hard decision back to the host \r\n");
 					// getting the hard decision back to the host
 					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
 

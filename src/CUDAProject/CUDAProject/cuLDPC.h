@@ -48,6 +48,7 @@ static float snr_array[NUM_SNR] = { 1.0f };
 #define USE_PINNED_MEM	YES
 #define ETA				NO		//early termination algorithm
 #define ET_MARK			NO
+#define Q8_CONVERSION	YES
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //	The following settings are fixed.
