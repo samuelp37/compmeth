@@ -51,6 +51,7 @@ extern "C"
 	void awgn(float trans[], float recv[]);
 	void error_check(float trans[], float recv[]);
 	void llr_init(float llr[], float recv[]);
+	void llr_init_Q8(char llr[], float recv[]);
 	int parity_check(float app[]);
 	error_result cuda_error_check(int info[], int hard_decision[]);
 
@@ -201,6 +202,7 @@ int runTest()
 	int memorySize_infobits = INFO_LEN * sizeof(int);
 	int memorySize_codeword = CODEWORD_LEN * sizeof(int);
 	int memorySize_llr = CODEWORD_LEN * sizeof(float);
+	int memorySize_llr_Q8 = CODEWORD_LEN * sizeof(char);
 
 	int memorySize_et = MCW * CW * sizeof(int);
 
@@ -210,7 +212,8 @@ int runTest()
 	float *recv = (float *)malloc(memorySize_llr);
 	float *APP = (float *)malloc(memorySize_llr);
 
-	float *llr = (float *)malloc(memorySize_llr);
+	//float *llr = (float *)malloc(memorySize_llr);
+	char *llr_Q8 = (char *)malloc(memorySize_llr_Q8); // added Q8
 	int * et = (int*)malloc(memorySize_et);
 
 	rate = (float)0.5f;
@@ -227,14 +230,15 @@ int runTest()
 	//////////////////////////////////////////////////////////////////////////////////
 	// all the variables Starting with _cuda is used in host code and for cuda computation
 	int memorySize_infobits_cuda = MCW * CW * memorySize_infobits;
-	int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(float);
+	//int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(float);
+	int memorySize_llr_cuda_Q8 = MCW *  CW * CODEWORD_LEN * sizeof(char); // changed to Q8
 	int memorySize_dt_cuda = MCW *  CW * ROW * BLK_COL * sizeof(float);
 	int memorySize_R_cuda = MCW *  CW * ROW * BLK_COL * sizeof(float);
 	int memorySize_hard_decision_cuda = MCW * CW * CODEWORD_LEN * sizeof(int);
 	int memorySize_et_cuda = MCW * CW * sizeof(int);
 
 	int *info_bin_cuda[NSTREAMS];
-	float *llr_cuda[NSTREAMS];
+	char *llr_cuda_Q8[NSTREAMS]; // changed to Q8
 	int * hard_decision_cuda[NSTREAMS];
 
 	// Allocate pinned memory for llr and hard_decision data.
@@ -246,7 +250,7 @@ int runTest()
 		printf("allocating in pinned memory \r\n");
 
 		// allocate float[] in pinned memory to send to the gpu
-		checkCudaErrors(cudaHostAlloc((void **)&llr_cuda[i], memorySize_llr_cuda, cudaHostAllocDefault));
+		checkCudaErrors(cudaHostAlloc((void **)&llr_cuda_Q8[i], memorySize_llr_cuda_Q8, cudaHostAllocDefault)); // changed to Q8
 
 		// allocate int[] in pinned memory to get results from gpu
 		checkCudaErrors(cudaHostAlloc((void **)&hard_decision_cuda[i], memorySize_hard_decision_cuda, cudaHostAllocDefault));
@@ -261,6 +265,7 @@ int runTest()
 
 	// create device memory
 	float * dev_llr[NSTREAMS];
+	char * dev_llr_Q8[NSTREAMS];
 	float * dev_dt[NSTREAMS];
 	float * dev_R[NSTREAMS];
 	int * dev_hard_decision[NSTREAMS];
@@ -279,7 +284,8 @@ int runTest()
 	for (int i = 0; i < NSTREAMS; i++)
 	{
 		// allocation on device side
-		checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda)); // float[] input
+		//checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda)); // float[] input
+		checkCudaErrors(cudaMalloc((void **)&dev_llr_Q8[i], memorySize_llr_cuda_Q8)); // added version Q8
 		checkCudaErrors(cudaMalloc((void **)&dev_dt[i], memorySize_dt_cuda));
 		checkCudaErrors(cudaMalloc((void **)&dev_R[i], memorySize_R_cuda));
 		checkCudaErrors(cudaMalloc((void **)&dev_hard_decision[i], memorySize_hard_decision_cuda)); // int[] results
@@ -324,7 +330,7 @@ int runTest()
 				error_check(trans, recv);
 #endif
 				// LLR init
-				llr_init(llr, recv);
+				llr_init_Q8(llr_Q8, recv); // changed from llr_init to llr_init_Q8
 				// copy the info_bin and llr to the total memory
 				for (int j = 0; j < NSTREAMS; j++)
 				{
@@ -333,7 +339,7 @@ int runTest()
 					memcpy(info_bin_cuda[j] + i * INFO_LEN, info_bin, memorySize_infobits);
 
 					// allocate llr in the pinned memory side
-					memcpy(llr_cuda[j] + i * CODEWORD_LEN, llr, memorySize_llr);
+					memcpy(llr_cuda_Q8[j] + i * CODEWORD_LEN, llr_Q8, memorySize_llr_Q8); // changed to Q8
 				}
 			}
 			printf("Data generated and ready to be sent \r\n");
@@ -397,7 +403,7 @@ int runTest()
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
 				{
 					// copying from pinned memory in host side to cuda memory
-					checkCudaErrors(cudaMemcpyAsync(dev_llr[iSt], llr_cuda[iSt], memorySize_llr_cuda, cudaMemcpyHostToDevice, streams[iSt]));
+					checkCudaErrors(cudaMemcpyAsync(dev_llr_Q8[iSt], llr_cuda_Q8[iSt], memorySize_llr_cuda_Q8, cudaMemcpyHostToDevice, streams[iSt]));
 					cudaStreamSynchronize(streams[iSt]);
 				}
 				//cudaDeviceSynchronize();
@@ -431,7 +437,10 @@ int runTest()
 
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
 				{
-					checkCudaErrors(cudaMemcpyAsync(dev_llr[iSt], llr_cuda[iSt], memorySize_llr_cuda, cudaMemcpyHostToDevice, streams[iSt]));
+					checkCudaErrors(cudaMemcpyAsync(dev_llr_Q8[iSt], llr_cuda_Q8[iSt], memorySize_llr_cuda_Q8, cudaMemcpyHostToDevice, streams[iSt]));
+
+					// Now, need to convert again dev_llr to dev_llr_Q8
+
 
 					// kernel launch
 					// Doing the algorithm
@@ -542,13 +551,13 @@ int runTest()
 	free(codeword);
 	free(trans);
 	free(recv);
-	free(llr);
+	free(llr_Q8);
 	free(et);
 
 #if USE_PINNED_MEM == 1
 	for (int iSt = 0; iSt < NSTREAMS; iSt++)
 	{
-		checkCudaErrors(cudaFreeHost(llr_cuda[iSt]));
+		checkCudaErrors(cudaFreeHost(llr_cuda_Q8[iSt]));
 		checkCudaErrors(cudaFreeHost(hard_decision_cuda[iSt]));
 	}
 #else

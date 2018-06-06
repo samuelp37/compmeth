@@ -154,6 +154,34 @@ void llr_init(float llr[], float recv[])
 
 
 //===================================
+// calc LLRs_Q8
+//===================================
+void llr_init_Q8(char llr[], float recv[])
+{
+	int i;
+#if PRINT_MSG == 1
+	FILE * fp;
+#endif
+	float llr_rev;
+
+#if PRINT_MSG == 1
+	fp = fopen("llr_fp.dat", "w");
+#endif
+
+	for (i = 0; i < CODEWORD_LEN; i++)
+	{
+		llr_rev = (recv[i] * 2) / (sigma*sigma);	// 2r/sigma^2 ;
+		llr[i] = (char) llr_rev*(pow(2,8));
+#if PRINT_MSG == 1
+		fprintf(fp, "recv[%d] = %f, LLR [%d] = %f\n", i, recv[i], i, llr[i]);
+#endif
+	}
+#if PRINT_MSG == 1
+	fclose(fp);
+#endif
+}
+
+//===================================
 // parity check
 //===================================
 int parity_check(float app[])
