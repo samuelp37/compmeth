@@ -230,7 +230,7 @@ int runTest()
 	//////////////////////////////////////////////////////////////////////////////////
 	// all the variables Starting with _cuda is used in host code and for cuda computation
 	int memorySize_infobits_cuda = MCW * CW * memorySize_infobits;
-	//int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(float);
+	int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(float);
 	int memorySize_llr_cuda_Q8 = MCW *  CW * CODEWORD_LEN * sizeof(char); // changed to Q8
 	int memorySize_dt_cuda = MCW *  CW * ROW * BLK_COL * sizeof(float);
 	int memorySize_R_cuda = MCW *  CW * ROW * BLK_COL * sizeof(float);
@@ -284,7 +284,7 @@ int runTest()
 	for (int i = 0; i < NSTREAMS; i++)
 	{
 		// allocation on device side
-		//checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda)); // float[] input
+		checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda)); // float[] input
 		checkCudaErrors(cudaMalloc((void **)&dev_llr_Q8[i], memorySize_llr_cuda_Q8)); // added version Q8
 		checkCudaErrors(cudaMalloc((void **)&dev_dt[i], memorySize_dt_cuda));
 		checkCudaErrors(cudaMalloc((void **)&dev_R[i], memorySize_R_cuda));
@@ -406,7 +406,6 @@ int runTest()
 					checkCudaErrors(cudaMemcpyAsync(dev_llr_Q8[iSt], llr_cuda_Q8[iSt], memorySize_llr_cuda_Q8, cudaMemcpyHostToDevice, streams[iSt]));
 					cudaStreamSynchronize(streams[iSt]);
 				}
-				//cudaDeviceSynchronize();
 #else
 				checkCudaErrors(cudaMemcpy(dev_llr, llr_cuda, memorySize_llr_cuda, cudaMemcpyHostToDevice));
 #endif
@@ -437,10 +436,10 @@ int runTest()
 
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
 				{
-					checkCudaErrors(cudaMemcpyAsync(dev_llr_Q8[iSt], llr_cuda_Q8[iSt], memorySize_llr_cuda_Q8, cudaMemcpyHostToDevice, streams[iSt]));
+					//checkCudaErrors(cudaMemcpyAsync(dev_llr_Q8[iSt], llr_cuda_Q8[iSt], memorySize_llr_cuda_Q8, cudaMemcpyHostToDevice, streams[iSt]));
 
-					// Now, need to convert again dev_llr to dev_llr_Q8
-
+					// Now, need to convert again dev_llr_Q8 to dev_llr
+					conversion_Q8_float << < dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >> >(dev_llr[iSt], dev_llr_Q8[iSt]);
 
 					// kernel launch
 					// Doing the algorithm
@@ -461,7 +460,6 @@ int runTest()
 					printf("Getting the hard decision back to the host \r\n");
 					// getting the hard decision back to the host
 					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
-
 
 					num_of_iteration_for_et = MAX_ITERATION;
 				}
