@@ -1,0 +1,66 @@
+[CUDA Bandwidth Test] - Starting...
+Running on...
+
+ Device 0: Tesla P100-PCIE-12GB
+ Quick Mode
+
+ Host to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(MB/s)
+   33554432			12061.4
+
+ Device to Host Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(MB/s)
+   33554432			12879.3
+
+ Device to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(MB/s)
+   33554432			381391.5
+
+Result = PASS
+
+NOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.
+
+================================= NSTREAM = 1
+GPU CUDA Demo
+SNR = 1.0 dB
+# codewords = 9100, # streams = 1, CW=10, MCW=10
+number of iterations = 0.0 
+CPU time: 20.843000 ms, for 50 simulations.
+Throughput = 552.703552 Mbps
+End of the algorithm...
+
+
+================================= NSTREAM = 10
+
+GPU CUDA Demo
+SNR = 1.0 dB
+# codewords = 91000, # streams = 10, CW=10, MCW=10
+number of iterations = 0.0 
+CPU time: 126.403000 ms, for 50 simulations.
+Throughput = 911.370728 Mbps
+End of the algorithm...
+
+
+================================= NSTREAM = 20
+
+GPU CUDA Demo
+SNR = 1.0 dB
+# codewords = 182000, # streams = 20, CW=10, MCW=10
+number of iterations = 0.0 
+CPU time: 233.468002 ms, for 50 simulations.
+Throughput = 986.859009 Mbps
+End of the algorithm...
+
+
+================================= NSTREAM = 100
+GPU CUDA Demo
+SNR = 1.0 dB
+# codewords = 910000, # streams = 100, CW=10, MCW=10
+number of iterations = 0.0 
+CPU time: 1097.784058 ms, for 50 simulations.
+Throughput = 1049.386719 Mbps
+End of the algorithm...
+
