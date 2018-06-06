@@ -1,5 +1,39 @@
-﻿La génération a démarré 30/05/2018 12:10:57.
+﻿La génération a démarré 06/06/2018 09:36:13.
      1>Projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>AddCudaCompileDeps:
+         D:\appli\Microsoft Visual Studio\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /D_MBCS /D_CRT_SECURE_NO_WARNINGS /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I. /FIcuda_runtime.h /c D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu 
+     1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:2) sur le nœud 2 (CudaBuildCore cible(s)).
+     1>CudaBuildCore:
+         Compiling CUDA source file cuLDPC.cu...
+         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmp94f8e89b6ae44c9aa76450310fa9e823.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu"
+         
+         D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu" 
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(123): warning : linkage specification is incompatible with previous "h_base"
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(413): warning : variable "sharedDtCacheSize" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(420): warning : variable "cpu_run_time" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(564): warning : variable "throughput" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(302): warning : variable "b_et" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(303): warning : variable "this_error" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(306): warning : variable "total_bit_error" was set but never used
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(308): warning : variable "num_of_iteration_for_et" was set but never used
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(309): warning : variable "iter_cnt" was set but never used
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(309): warning : variable "iter_num" was set but never used
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(123): warning : linkage specification is incompatible with previous "h_base"
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(413): warning : variable "sharedDtCacheSize" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(420): warning : variable "cpu_run_time" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(564): warning : variable "throughput" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(302): warning : variable "b_et" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(303): warning : variable "this_error" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(306): warning : variable "total_bit_error" was set but never used
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(308): warning : variable "num_of_iteration_for_et" was set but never used
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(309): warning : variable "iter_cnt" was set but never used
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(309): warning : variable "iter_num" was set but never used
+         cuLDPC.cu
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(556): warning C4244: '+=' : conversion de 'double' en 'float', perte possible de données
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(302): warning C4101: 'b_et' : variable locale non référencée
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(303): warning C4101: 'this_error' : variable locale non référencée
+     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
      1>Link:
          D:\appli\Microsoft Visual Studio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib cuda.lib cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.lib" /MACHINE:X86 Debug\cuLDPC.cu.obj
          Debug\cuLDPC_kernel.cu.obj
@@ -15,4 +49,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:00.62
+Temps écoulé 00:00:04.87

@@ -244,6 +244,7 @@ int runTest()
 
 	#if Q8_CONVERSION == 1
 		int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(char);
+		printf("Memory size llr cuda : %d \n",memorySize_llr_cuda);
 	#else
 		int memorySize_llr_cuda = MCW *  CW * CODEWORD_LEN * sizeof(float);
 	#endif
@@ -311,7 +312,7 @@ int runTest()
 	for (int i = 0; i < NSTREAMS; i++)
 	{
 		// allocation on device side
-		checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda)); // float[] input
+		checkCudaErrors(cudaMalloc((void **)&dev_llr[i], memorySize_llr_cuda)); // char[] input
 		#if Q8_CONVERSION == 1
 			checkCudaErrors(cudaMalloc((void **)&dev_llr_float[i], memorySize_llr_cuda_float)); // float[] input
 		#endif
@@ -437,6 +438,9 @@ int runTest()
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
 				{
 					// copying from pinned memory in host side to cuda memory
+					printf("size1 : %d \n", sizeof((dev_llr[iSt])));
+					printf("size2 : %d \n", sizeof((llr_cuda[iSt])));
+					printf("size to copy : %d \n", memorySize_llr_cuda);
 					checkCudaErrors(cudaMemcpyAsync(dev_llr[iSt], llr_cuda[iSt], memorySize_llr_cuda, cudaMemcpyHostToDevice, streams[iSt]));
 					cudaStreamSynchronize(streams[iSt]);
 				}
