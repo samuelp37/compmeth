@@ -439,7 +439,7 @@ int runTest()
 					//checkCudaErrors(cudaMemcpyAsync(dev_llr_Q8[iSt], llr_cuda_Q8[iSt], memorySize_llr_cuda_Q8, cudaMemcpyHostToDevice, streams[iSt]));
 
 					// Now, need to convert again dev_llr_Q8 to dev_llr
-					conversion_Q8_float << < dimGridKernel1, dimBlockKernel1>> >(dev_llr[iSt], dev_llr_Q8[iSt]);
+					conversion_Q8_float << < MCW*CW, CODEWORD_LEN >> >(dev_llr[iSt], dev_llr_Q8[iSt]);
 
 					// kernel launch
 					// Doing the algorithm

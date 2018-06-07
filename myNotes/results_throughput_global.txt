@@ -1,0 +1,8 @@
+Results:
+
+1 Channel :
+- First IO Version (not exploiting all the gpu efficiency): 2.32 Mbps
+- Second IO Version (good use of GPU) : 9.6 Mbps
+
+3 Channels :
+- Second IO Version : 9.84 Mbps

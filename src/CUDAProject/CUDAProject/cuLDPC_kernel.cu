@@ -144,14 +144,15 @@ ldpc_cnp_kernel_1st_iter(float * dev_llr, float * dev_dt, float * dev_R, int * d
 __global__ void
 conversion_Q8_float(float * dev_llr, char* dev_llr_char)
 {
-	int	iCW = threadIdx.y; // index of CW in a MCW
-	int iMCW = blockIdx.y; // index of MCW
-	int iCurrentCW = iMCW * CW + iCW;
+	int	iCWMCW = threadIdx.y; // index of CW in a MCW : 1000 threads
+	int CWIndex = blockIdx.y; // index of MCW : 2304 blocks
+	int iCurrentCW = iCWMCW * CODEWORD_LEN + CWIndex;
 
 	int data_nb = MCW *  CW * CODEWORD_LEN;
 
-	for (int j = 0; j < CODEWORD_LEN; j++){
-		dev_llr[iCurrentCW + j] = (float)dev_llr_char[iCurrentCW + j] * (1.0 / 256.0);
+	
+	if (iCurrentCW<data_nb){
+		dev_llr[iCurrentCW] = (float)dev_llr_char[iCurrentCW] * (1.0 / 256.0);
 	}
 }
 

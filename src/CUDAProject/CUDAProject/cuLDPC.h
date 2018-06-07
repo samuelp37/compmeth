@@ -30,7 +30,7 @@ static float snr_array[NUM_SNR] = { 1.0f };
 #define DEBUG_BER	NO
 
 // Number of streams
-#define NSTREAMS 1
+#define NSTREAMS 3
 #define CW 10
 #define MCW 100
 #define MAX_SIM 10
