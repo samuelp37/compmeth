@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿La génération a démarré 06/06/2018 09:36:13.
      1>Projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" sur le nœud 2 (Build cible(s)).
      1>AddCudaCompileDeps:
@@ -34,6 +35,10 @@
      1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(302): warning C4101: 'b_et' : variable locale non référencée
      1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(303): warning C4101: 'this_error' : variable locale non référencée
      1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
+=======
+﻿La génération a démarré 07/06/2018 01:19:11.
+     1>Projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" sur le nœud 2 (Build cible(s)).
+>>>>>>> origin/test_former_version
      1>Link:
          D:\appli\Microsoft Visual Studio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib cuda.lib cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.lib" /MACHINE:X86 Debug\cuLDPC.cu.obj
          Debug\cuLDPC_kernel.cu.obj
@@ -49,4 +54,8 @@
 
 La génération a réussi.
 
+<<<<<<< HEAD
 Temps écoulé 00:00:04.87
+=======
+Temps écoulé 00:00:00.52
+>>>>>>> origin/test_former_version

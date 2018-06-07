@@ -164,7 +164,11 @@ void llr_init(float llr[], float recv[])
 
 
 //===================================
+<<<<<<< HEAD
 // calc LLRs with Q8 conversion
+=======
+// calc LLRs_Q8
+>>>>>>> origin/test_former_version
 //===================================
 void llr_init_Q8(char llr[], float recv[])
 {
@@ -181,8 +185,12 @@ void llr_init_Q8(char llr[], float recv[])
 	for (i = 0; i < CODEWORD_LEN; i++)
 	{
 		llr_rev = (recv[i] * 2) / (sigma*sigma);	// 2r/sigma^2 ;
+<<<<<<< HEAD
 		llr[i] = floatToQ8(llr_rev);
 
+=======
+		llr[i] = (char) llr_rev*(pow(2,8));
+>>>>>>> origin/test_former_version
 #if PRINT_MSG == 1
 		fprintf(fp, "recv[%d] = %f, LLR [%d] = %f\n", i, recv[i], i, llr[i]);
 #endif
