@@ -1,5 +1,9 @@
 Results:
 
+Basic :
+- 1 Channel : 9.34 Mbps
+- 3 Channels : 9.46 Mbps
+
 1 Channel :
 - First IO Version (not exploiting all the gpu efficiency): 2.32 Mbps
 - Second IO Version (good use of GPU) : 9.6 Mbps
