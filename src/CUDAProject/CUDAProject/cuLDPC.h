@@ -23,7 +23,7 @@ Revision:	08/01/2013
 
 // Simulation parameters
 #define NUM_SNR 1
-static float snr_array[NUM_SNR] = { 1.0f };
+static float snr_array[NUM_SNR] = { 10.0f };
 #define MIN_FER         2000
 #define MIN_CODEWORD    9000
 #define MAX_ITERATION 5
@@ -36,8 +36,8 @@ static float snr_array[NUM_SNR] = { 1.0f };
 #define MAX_SIM 10
 
 #define MEASURE_CPU_TIME	YES		// whether measure time and throughput
-#define MEASURE_CUDA_TIME	NO		// whether measure CUDA memory transfer time and CUDA kernel time
-//#	define DISPLAY_BER	
+#define MEASURE_CUDA_TIME	YES		// whether measure CUDA memory transfer time and CUDA kernel time
+#define DISPLAY_BER	YES
 
 // begin debug
 #define	DEBUG_FILE	NO
