@@ -327,7 +327,7 @@ ldpc_vnp_kernel_normal(float * dev_llr, float * dev_dt, int * dev_et)
 
 // Kernel: VNP processing for the last iteration.
 __global__ void
-ldpc_vnp_kernel_last_iter(float * dev_llr, float * dev_dt, int * dev_hd, int * dev_et)
+ldpc_vnp_kernel_last_iter(float * dev_llr, float * dev_dt, char * dev_hd, int * dev_et)
 {
 #if MODE == WIFI
 	if (threadIdx.x >= Z)

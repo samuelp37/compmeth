@@ -234,12 +234,12 @@ int runTest()
 	int memorySize_llr_cuda_Q8 = MCW *  CW * CODEWORD_LEN * sizeof(char); // changed to Q8
 	int memorySize_dt_cuda = MCW *  CW * ROW * BLK_COL * sizeof(float);
 	int memorySize_R_cuda = MCW *  CW * ROW * BLK_COL * sizeof(float);
-	int memorySize_hard_decision_cuda = MCW * CW * CODEWORD_LEN * sizeof(int);
+	int memorySize_hard_decision_cuda = MCW * CW * CODEWORD_LEN * sizeof(char);
 	int memorySize_et_cuda = MCW * CW * sizeof(int);
 
 	int *info_bin_cuda[NSTREAMS];
 	char *llr_cuda_Q8[NSTREAMS]; // changed to Q8
-	int * hard_decision_cuda[NSTREAMS];
+	char * hard_decision_cuda[NSTREAMS];
 
 	// Allocate pinned memory for llr and hard_decision data.
 #if USE_PINNED_MEM == 1  // pinned memory
@@ -268,7 +268,7 @@ int runTest()
 	char * dev_llr_Q8[NSTREAMS];
 	float * dev_dt[NSTREAMS];
 	float * dev_R[NSTREAMS];
-	int * dev_hard_decision[NSTREAMS];
+	char * dev_hard_decision[NSTREAMS];
 	int * dev_et[NSTREAMS];
 
 	bool b_et;
@@ -288,7 +288,7 @@ int runTest()
 		checkCudaErrors(cudaMalloc((void **)&dev_llr_Q8[i], memorySize_llr_cuda_Q8)); // added version Q8
 		checkCudaErrors(cudaMalloc((void **)&dev_dt[i], memorySize_dt_cuda));
 		checkCudaErrors(cudaMalloc((void **)&dev_R[i], memorySize_R_cuda));
-		checkCudaErrors(cudaMalloc((void **)&dev_hard_decision[i], memorySize_hard_decision_cuda)); // int[] results
+		checkCudaErrors(cudaMalloc((void **)&dev_hard_decision[i], memorySize_hard_decision_cuda)); // char[] results
 		checkCudaErrors(cudaMalloc((void **)&dev_et[i], memorySize_et_cuda));
 		printf("Allocation in device done \r\n");
 

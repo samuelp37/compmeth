@@ -21,7 +21,7 @@ __device__ float F_FUCN_MIN_SUM_DEV(float a, float b);
 __global__ void ldpc_cnp_kernel_1st_iter(float * dev_llr, float * dev_dt, float * dev_R, int * dev_et);
 __global__ void ldpc_cnp_kernel(float * dev_llr, float * dev_dt, float * dev_R, int * dev_et, int threadsPerBlock);
 __global__ void ldpc_vnp_kernel_normal(float * dev_llr, float * dev_dt, int * dev_et);
-__global__ void ldpc_vnp_kernel_last_iter(float * dev_llr, float * dev_dt, int * dev_hd, int * dev_et);
+__global__ void ldpc_vnp_kernel_last_iter(float * dev_llr, float * dev_dt, char * dev_hd, int * dev_et);
 __global__ void ldpc_decoder_kernel3_early_termination(int * dev_hd, int * dev_et);
 __global__ void conversion_Q8_float(float * dev_llr_float, char * dev_llr);
 

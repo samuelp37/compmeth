@@ -36,7 +36,7 @@ static float snr_array[NUM_SNR] = { 1.0f };
 #define MAX_SIM 10
 
 #define MEASURE_CPU_TIME	YES		// whether measure time and throughput
-#define MEASURE_CUDA_TIME	NO		// whether measure CUDA memory transfer time and CUDA kernel time
+#define MEASURE_CUDA_TIME	YES		// whether measure CUDA memory transfer time and CUDA kernel time
 //#	define DISPLAY_BER	
 
 // begin debug

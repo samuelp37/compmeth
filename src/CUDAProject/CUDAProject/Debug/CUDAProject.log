@@ -1,57 +1,22 @@
-﻿La génération a démarré 07/06/2018 10:06:35.
+﻿La génération a démarré 10/06/2018 23:23:48.
      1>Projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" sur le nœud 2 (Build cible(s)).
      1>AddCudaCompileDeps:
-         D:\appli\Microsoft Visual Studio\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /D_MBCS /D_CRT_SECURE_NO_WARNINGS /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I. /FIcuda_runtime.h /c D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu 
-       AddCudaCompileDeps:
          D:\appli\Microsoft Visual Studio\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /D_MBCS /D_CRT_SECURE_NO_WARNINGS /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I. /FIcuda_runtime.h /c D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC_kernel.cu 
-     1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:2) sur le nœud 2 (CudaBuildCore cible(s)).
-     1>CudaBuildCore:
-         Compiling CUDA source file cuLDPC.cu...
      1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:3) sur le nœud 1 (CudaBuildCore cible(s)).
      1>CudaBuildCore:
          Compiling CUDA source file cuLDPC_kernel.cu...
-     1>CudaBuildCore:
-         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmpa929201b3e0d48d0bbef5cd9ffa0faa8.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu"
-         
-         D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC.cu" 
-     1>CudaBuildCore:
-         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmp8575419d621147f79b83259d4a66a35c.cmd"
+         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmp4f92825eeb2b44b3ac432f6c6cad840a.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC_kernel.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC_kernel.cu"
          
          D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC_kernel.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC_kernel.cu" 
      1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC_kernel.cu(32): warning : variable "tmp" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(123): warning : linkage specification is incompatible with previous "h_base"
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(378): warning : variable "sharedDtCacheSize" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(385): warning : variable "cpu_run_time" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(513): warning : variable "throughput" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(274): warning : variable "b_et" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(275): warning : variable "this_error" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(278): warning : variable "total_bit_error" was set but never used
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(280): warning : variable "num_of_iteration_for_et" was set but never used
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(281): warning : variable "iter_cnt" was set but never used
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(281): warning : variable "iter_num" was set but never used
      1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC_kernel.cu(32): warning : variable "tmp" was declared but never referenced
          cuLDPC_kernel.cu
      1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(123): warning : linkage specification is incompatible with previous "h_base"
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(378): warning : variable "sharedDtCacheSize" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(385): warning : variable "cpu_run_time" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(513): warning : variable "throughput" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(274): warning : variable "b_et" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(275): warning : variable "this_error" was declared but never referenced
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(278): warning : variable "total_bit_error" was set but never used
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(280): warning : variable "num_of_iteration_for_et" was set but never used
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(281): warning : variable "iter_cnt" was set but never used
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(281): warning : variable "iter_num" was set but never used
-         cuLDPC.cu
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(505): warning C4244: '+=' : conversion de 'double' en 'float', perte possible de données
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(274): warning C4101: 'b_et' : variable locale non référencée
-     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC.cu(275): warning C4101: 'this_error' : variable locale non référencée
-     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
      1>ClCompile:
-         D:\appli\Microsoft Visual Studio\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cuLDPC_CPU.cpp mainContent.cpp
+         D:\appli\Microsoft Visual Studio\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cuLDPC_CPU.cpp main.cpp mainContent.cpp
          mainContent.cpp
+         main.cpp
          cuLDPC_CPU.cpp
      1>d:\data\travail\samuel\eurecom_2a\compmeth\proj\src\cudaproject\cudaproject\culdpc_cpu.cpp(175): warning C4244: '=' : conversion de 'double' en 'char', perte possible de données
          Génération de code en cours...
@@ -65,9 +30,10 @@
          Debug\main.obj
          Debug\mainContent.obj
          Debug\random_generator.obj
+         LINK : D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
          CUDAProject.vcxproj -> D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe
      1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:07.53
+Temps écoulé 00:00:07.25
