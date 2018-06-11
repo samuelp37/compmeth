@@ -51,7 +51,7 @@ extern "C"
 	void awgn(float trans[], float recv[]);
 	void error_check(float trans[], float recv[]);
 	void llr_init(float llr[], float recv[]);
-	void llr_init_Q8(char llr[], float recv[]);
+	void llr_init_Q8(unsigned char llr[], float recv[]);
 	int parity_check(float app[]);
 	error_result cuda_error_check(int info[], int hard_decision[]);
 
@@ -212,8 +212,8 @@ int runTest()
 	float *recv = (float *)malloc(memorySize_llr);
 	float *APP = (float *)malloc(memorySize_llr);
 
-	//float *llr = (float *)malloc(memorySize_llr);
-	char *llr_Q8 = (char *)malloc(memorySize_llr_Q8); // added Q8
+	unsigned char *llr_Q8 = (unsigned char *)malloc(memorySize_llr_Q8); // added Q8
+	float *llr_test_b = (float*)malloc(memorySize_llr);
 	int * et = (int*)malloc(memorySize_et);
 
 	rate = (float)0.5f;
@@ -238,7 +238,8 @@ int runTest()
 	int memorySize_et_cuda = MCW * CW * sizeof(int);
 
 	int *info_bin_cuda[NSTREAMS];
-	char *llr_cuda_Q8[NSTREAMS]; // changed to Q8
+	unsigned char *llr_cuda_Q8[NSTREAMS]; // changed to Q8
+	float *llr_test[NSTREAMS];
 	int * hard_decision_cuda[NSTREAMS];
 
 	// Allocate pinned memory for llr and hard_decision data.
@@ -255,6 +256,8 @@ int runTest()
 		// allocate int[] in pinned memory to get results from gpu
 		checkCudaErrors(cudaHostAlloc((void **)&hard_decision_cuda[i], memorySize_hard_decision_cuda, cudaHostAllocDefault));
 	
+		checkCudaErrors(cudaHostAlloc((void **)&llr_test[i], memorySize_llr_cuda, cudaHostAllocDefault));
+
 		printf("copy finished \r\n");
 
 	}
@@ -265,7 +268,7 @@ int runTest()
 
 	// create device memory
 	float * dev_llr[NSTREAMS];
-	char * dev_llr_Q8[NSTREAMS];
+	unsigned char * dev_llr_Q8[NSTREAMS];
 	float * dev_dt[NSTREAMS];
 	float * dev_R[NSTREAMS];
 	int * dev_hard_decision[NSTREAMS];
@@ -330,6 +333,12 @@ int runTest()
 #endif
 				// LLR init
 				llr_init_Q8(llr_Q8, recv); // changed from llr_init to llr_init_Q8
+
+				//for (int j = 0; j < 1000; j++){
+					//printf("in Q8, llr[%d]=%d\n", j, llr_Q8[j]);
+					//printf("after Q8 conversion, llr_Q8[%d]=%d\n", j, llr_Q8[j]);
+				//}
+
 				// copy the info_bin and llr to the total memory
 				for (int j = 0; j < NSTREAMS; j++)
 				{
@@ -439,6 +448,13 @@ int runTest()
 
 					// Now, need to convert again dev_llr_Q8 to dev_llr
 					conversion_Q8_float << < MCW*CW, CODEWORD_LEN >> >(dev_llr[iSt], dev_llr_Q8[iSt]);
+
+					// To Delete when doing tests
+					//checkCudaErrors(cudaMemcpyAsync(llr_test[iSt], dev_llr[iSt], memorySize_llr_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+					
+					//for (int j = 0; j < 1000; j++){
+					//	printf("in float, llr[%d]=%d\n", j, llr_test[iSt][j]);
+					//}
 
 					// kernel launch
 					// Doing the algorithm

@@ -23,7 +23,7 @@ Revision:	08/01/2013
 
 // Simulation parameters
 #define NUM_SNR 1
-static float snr_array[NUM_SNR] = { 5.0f };
+static float snr_array[NUM_SNR] = { 20.0f };
 #define MIN_FER         50
 #define MIN_CODEWORD    9000
 #define MAX_ITERATION 5
@@ -41,7 +41,7 @@ static float snr_array[NUM_SNR] = { 5.0f };
 
 // begin debug
 #define	DEBUG_FILE	NO
-#define PRINT_MSG	NO
+#define PRINT_MSG	YES
 // end debug
 
 // Performance optimizations

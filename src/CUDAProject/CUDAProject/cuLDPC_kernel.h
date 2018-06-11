@@ -23,6 +23,6 @@ __global__ void ldpc_cnp_kernel(float * dev_llr, float * dev_dt, float * dev_R, 
 __global__ void ldpc_vnp_kernel_normal(float * dev_llr, float * dev_dt, int * dev_et);
 __global__ void ldpc_vnp_kernel_last_iter(float * dev_llr, float * dev_dt, int * dev_hd, int * dev_et);
 __global__ void ldpc_decoder_kernel3_early_termination(int * dev_hd, int * dev_et);
-__global__ void conversion_Q8_float(float * dev_llr_float, char * dev_llr);
+__global__ void conversion_Q8_float(float * dev_llr, unsigned char * dev_llr_char);
 
 #endif

@@ -142,17 +142,21 @@ ldpc_cnp_kernel_1st_iter(float * dev_llr, float * dev_dt, float * dev_R, int * d
 
 // Kernel 1
 __global__ void
-conversion_Q8_float(float * dev_llr, char* dev_llr_char)
+conversion_Q8_float(float * dev_llr, unsigned char* dev_llr_char)
 {
 	int	iCWMCW = threadIdx.y; // index of CW in a MCW : 1000 threads
 	int CWIndex = blockIdx.y; // index of MCW : 2304 blocks
 	int iCurrentCW = iCWMCW * CODEWORD_LEN + CWIndex;
 
 	int data_nb = MCW *  CW * CODEWORD_LEN;
-
 	
 	if (iCurrentCW<data_nb){
-		dev_llr[iCurrentCW] = (float) dev_llr_char[iCurrentCW] * (1.0 / 256.0);
+		//dev_llr[iCurrentCW] = (float) dev_llr_char[iCurrentCW] * (1.0 / 256.0); former version --> not doing smart Q8 conversion
+		
+		// reversing operations that have been done in host part
+		//printf("before : %d", dev_llr_char[iCurrentCW]);
+		dev_llr[iCurrentCW] = 1;//((float)dev_llr_char[iCurrentCW]) * 2 - 255.;
+		//printf("after : %d", dev_llr[iCurrentCW]);
 	}
 }
 

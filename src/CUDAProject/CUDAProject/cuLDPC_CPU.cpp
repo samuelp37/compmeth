@@ -28,7 +28,7 @@ extern "C"
 	void awgn(float trans[], float recv[]);
 	void error_check(float trans[], float recv[]);
 	void llr_init(float llr[], float recv[]);
-	void llr_init_Q8(char llr[], float recv[]);
+	void llr_init_Q8(unsigned char llr[], float recv[]);
 	int parity_check(float app[]);
 	error_result cuda_error_check(int info[], int hard_decision[]);
 };
@@ -157,7 +157,7 @@ void llr_init(float llr[], float recv[])
 //===================================
 // calc LLRs_Q8
 //===================================
-void llr_init_Q8(char llr[], float recv[])
+void llr_init_Q8(unsigned char llr[], float recv[])
 {
 	int i;
 #if PRINT_MSG == 1
@@ -172,9 +172,26 @@ void llr_init_Q8(char llr[], float recv[])
 	for (i = 0; i < CODEWORD_LEN; i++)
 	{
 		llr_rev = (recv[i] * 2) / (sigma*sigma);	// 2r/sigma^2 ;
-		llr[i] = (char) llr_rev*(pow(2,8));
+		//printf("llr_rev[%d] = %f\n", i, llr_rev);
+		// llr[i] = (char) llr_rev*(pow(2,8)); --> cannot be applied there
+
+		// we can consider that the values of llr_rev are spread over -255 to 255 range
+		llr_rev = llr_rev + 255; // we shift all the numbers on the positive range
+		if (llr_rev < 0){
+			llr_rev = 0;
+		}
+		llr_rev = llr_rev / 2; // rescaling to avoid saturation
+		//printf("After transfo : llr_rev[%d] = %f\n", i, llr_rev);
+		llr[i] = (unsigned char)(llr_rev);
+		//printf("Ready to send : llr[%d] = %d\n", i, llr[i]);
+
+		//float test = ((float)llr[i]) * 2 - 255.;
+		//printf("At the Device part : test = %f\n", test);
+
+
 #if PRINT_MSG == 1
 		fprintf(fp, "recv[%d] = %f, LLR [%d] = %f\n", i, recv[i], i, llr[i]);
+		//printf("recv[%d] = %f, LLR [%d] = %d\n", i, recv[i], i, llr[i]);
 #endif
 	}
 #if PRINT_MSG == 1
