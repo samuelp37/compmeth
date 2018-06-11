@@ -427,6 +427,9 @@ int runTest()
 				time_memset += time_memset_temp;
 #endif
 
+#if MEASURE_CUDA_TIME == 1
+				cudaEventRecord(start_kernel, 0);
+#endif
 				printf("Performing computations in device part \r\n");
 
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
@@ -451,13 +454,30 @@ int runTest()
 
 					printf("Getting the hard decision back to the host \r\n");
 					// getting the hard decision back to the host
-					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+					//checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
 
 
 					num_of_iteration_for_et = MAX_ITERATION;
 				}
 
-				cudaDeviceSynchronize();
+#if MEASURE_CUDA_TIME == 1
+	cudaEventRecord(stop_kernel, 0);
+	cudaEventSynchronize(stop_kernel);
+	cudaEventElapsedTime(&time_kernel_temp, start_kernel, stop_kernel);
+	time_kernel += time_kernel_temp;
+#endif
+
+#if MEASURE_CUDA_TIME == 1
+	cudaEventRecord(start_d2h, 0);
+	//cudaEventSynchronize(start_h2d);
+#endif
+
+for (int iSt = 0; iSt < NSTREAMS; iSt++)
+	{
+		checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+	}
+	
+	cudaDeviceSynchronize();
 
 #if MEASURE_CUDA_TIME == 1
 				cudaEventRecord(stop_d2h, 0);

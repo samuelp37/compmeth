@@ -23,14 +23,14 @@ Revision:	08/01/2013
 
 // Simulation parameters
 #define NUM_SNR 1
-static float snr_array[NUM_SNR] = { 10.0f };
+static float snr_array[NUM_SNR] = { 20.0f };
 #define MIN_FER         2000
 #define MIN_CODEWORD    9000
 #define MAX_ITERATION 5
 #define DEBUG_BER	NO
 
 // Number of streams
-#define NSTREAMS 1
+#define NSTREAMS 5
 #define CW 10
 #define MCW 100
 #define MAX_SIM 10
@@ -55,7 +55,7 @@ static float snr_array[NUM_SNR] = { 10.0f };
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #if MODE == WIMAX
 // WIMAX
-#define Z				96 //1024//96
+#define Z				96//1024//96
 #define NON_EMPTY_ELMENT 7
 #define NON_EMPTY_ELMENT_VNP	6
 #else 
