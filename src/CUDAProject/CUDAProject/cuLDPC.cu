@@ -57,13 +57,16 @@ extern "C"
 	float sigma;
 	int *info_bin;
 	FILE * gfp;
+	FILE * conf;
+	FILE * result;
+
 
 };
 
 
-int printDevices();
-int runTest();
-int printDevices()
+int printDevices(FILE * conf);
+int runTest(FILE * result);
+int printDevices(FILE * conf)
 {
 	int deviceCount = 0;
 	checkCudaErrors(cudaGetDeviceCount(&deviceCount));
@@ -98,6 +101,29 @@ int printDevices()
 	printf("device deviceOverlap: %d \n", deviceProperty.deviceOverlap);
 	printf("device multiProcessorCount: %d \n", deviceProperty.multiProcessorCount);
 	printf("device zero-copy data transfers: %d \n", deviceProperty.canMapHostMemory);
+
+	fprintf(conf,"\ndevice name: %s", deviceProperty.name);
+	fprintf(conf,"\n");
+	fprintf(conf,"device sharedMemPerBlock: %Iu \n", deviceProperty.sharedMemPerBlock);
+	fprintf(conf,"device totalGlobalMem: %Iu \n", deviceProperty.totalGlobalMem);
+	fprintf(conf,"device regsPerBlock: %d \n", deviceProperty.regsPerBlock);
+	fprintf(conf,"device warpSize: %d \n", deviceProperty.warpSize);
+	fprintf(conf,"device memPitch: %Iu \n", deviceProperty.memPitch);
+	fprintf(conf,"device maxThreadsPerBlock: %d \n", deviceProperty.maxThreadsPerBlock);
+	fprintf(conf,"device maxThreadsDim[0]: %d \n", deviceProperty.maxThreadsDim[0]);
+	fprintf(conf,"device maxThreadsDim[1]: %d \n", deviceProperty.maxThreadsDim[1]);
+	fprintf(conf,"device maxThreadsDim[2]: %d \n", deviceProperty.maxThreadsDim[2]);
+	fprintf(conf,"device maxGridSize[0]: %d \n", deviceProperty.maxGridSize[0]);
+	fprintf(conf,"device maxGridSize[1]: %d \n", deviceProperty.maxGridSize[1]);
+	fprintf(conf,"device maxGridSize[2]: %d \n", deviceProperty.maxGridSize[2]);
+	fprintf(conf,"device totalConstMem: %Iu \n", deviceProperty.totalConstMem);
+	fprintf(conf,"device major: %d \n", deviceProperty.major);
+	fprintf(conf,"device minor: %d \n", deviceProperty.minor);
+	fprintf(conf,"device clockRate: %d \n", deviceProperty.clockRate);
+	fprintf(conf,"device textureAlignment: %Iu \n", deviceProperty.textureAlignment);
+	fprintf(conf,"device deviceOverlap: %d \n", deviceProperty.deviceOverlap);
+	fprintf(conf,"device multiProcessorCount: %d \n", deviceProperty.multiProcessorCount);
+	fprintf(conf,"device zero-copy data transfers: %d \n", deviceProperty.canMapHostMemory);
 		
 	printf("\n");
 	return cudaSuccess;
@@ -107,21 +133,50 @@ int printDevices()
 int mainOfLDPC()
 {
 	gfp = fopen("test.txt", "w");
+	conf = fopen("conf.txt", "w");
+	result = fopen("result.txt", "a+");
 	printf("CUDA LDPC Decoder\r\nComputing...\r\n");
-	printDevices();
+	printDevices(conf);
 	cudaSetDevice(DEVICE_ID);
 
 	printf("Beginning the algorithm...\r\n");
-	runTest();
+	#undef NSTREAMS
+	#define NSTREAMS 1
+	runTest(result);
+	printf("1 stream done");
+
+	#undef NSTREAMS
+	#define NSTREAMS 5
+	runTest(result);
+	printf("5 streams done");
+
+	//#undef NSTREAMS
+	//#define NSTREAMS 10
+	//runTest(result);
+	//printf("10 streams done");
+
+	//#undef NSTREAMS
+	//#define NSTREAMS 15
+	//runTest(result);
+	//printf("15 streams done");
+
+	//#undef NSTREAMS
+	//#define NSTREAMS 20
+	//runTest(result);
+	//printf("20 streams done");
+
 	printf("End of the algorithm...\r\n");
 	fclose(gfp);
+	fclose(result);
+	fclose(conf);
+
 
 	return 0;
 }
 
 extern "C" int h_base[BLK_ROW][BLK_COL];
 
-int runTest()
+int runTest(FILE * result)
 {
 	h_element h_compact1[H_COMPACT1_COL][H_COMPACT1_ROW]; // for update dt, R
 	h_element h_element_temp;
@@ -243,7 +298,7 @@ int runTest()
 	{
 		info_bin_cuda[i] = (int *)malloc(memorySize_infobits_cuda);
 
-		printf("allocating in pinned memory \r\n");
+		//printf("allocating in pinned memory \r\n");
 
 		// allocate float[] in pinned memory to send to the gpu
 		checkCudaErrors(cudaHostAlloc((void **)&llr_cuda[i], memorySize_llr_cuda, cudaHostAllocDefault));
@@ -251,7 +306,7 @@ int runTest()
 		// allocate int[] in pinned memory to get results from gpu
 		checkCudaErrors(cudaHostAlloc((void **)&hard_decision_cuda[i], memorySize_hard_decision_cuda, cudaHostAllocDefault));
 	
-		printf("copy finished \r\n");
+		//printf("copy finished \r\n");
 
 	}
 #else // pageable memory
@@ -284,7 +339,7 @@ int runTest()
 		checkCudaErrors(cudaMalloc((void **)&dev_R[i], memorySize_R_cuda));
 		checkCudaErrors(cudaMalloc((void **)&dev_hard_decision[i], memorySize_hard_decision_cuda)); // int[] results
 		checkCudaErrors(cudaMalloc((void **)&dev_et[i], memorySize_et_cuda));
-		printf("Allocation in device done \r\n");
+		//printf("Allocation in device done \r\n");
 
 	}
 
@@ -304,7 +359,7 @@ int runTest()
 		while ((total_frame_error <= MIN_FER) && (total_codeword <= MIN_CODEWORD))
 		{
 
-			printf("New iter\n");
+			//printf("New iter\n");
 			total_codeword += CW * MCW;
 
 			// simulationg input channel
@@ -336,7 +391,7 @@ int runTest()
 					memcpy(llr_cuda[j] + i * CODEWORD_LEN, llr, memorySize_llr);
 				}
 			}
-			printf("Data generated and ready to be sent \r\n");
+			//printf("Data generated and ready to be sent \r\n");
 
 
 #if MEASURE_CUDA_TIME == 1
@@ -382,7 +437,7 @@ int runTest()
 			StartTimer();
 #endif
 
-			printf("Beginning running the kernel \r\n");
+			//printf("Beginning running the kernel \r\n");
 			// run the kernel
 			for (int j = 0; j < MAX_SIM; j++)
 			{
@@ -391,7 +446,7 @@ int runTest()
 				//cudaEventSynchronize(start_h2d);
 #endif
 
-				printf("Transfering LLR data into device \r\n");
+				//printf("Transfering LLR data into device \r\n");
 				// Transfer LLR data into device.
 #if USE_PINNED_MEM == 1
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
@@ -430,7 +485,7 @@ int runTest()
 #if MEASURE_CUDA_TIME == 1
 				cudaEventRecord(start_kernel, 0);
 #endif
-				printf("Performing computations in device part \r\n");
+				//printf("Performing computations in device part \r\n");
 
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
 				{
@@ -440,7 +495,7 @@ int runTest()
 					// Doing the algorithm
 					for (int ii = 0; ii < MAX_ITERATION; ii++)
 					{
-						printf("New iteration computation in device part \r\n");
+						//printf("New iteration computation in device part \r\n");
 						if (ii == 0)
 							ldpc_cnp_kernel_1st_iter <<< dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
 						else
@@ -452,10 +507,20 @@ int runTest()
 							ldpc_vnp_kernel_last_iter <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
 					}
 
-					printf("Getting the hard decision back to the host \r\n");
+					//printf("Getting the hard decision back to the host \r\n");
 					// getting the hard decision back to the host
-					//checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+#if MEASURE_CUDA_TIME == 1
+					cudaEventRecord(start_d2h, 0);
+					cudaEventSynchronize(start_h2d);
+#endif
+					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
 
+#if MEASURE_CUDA_TIME == 1
+					cudaEventRecord(stop_d2h, 0);
+					cudaEventSynchronize(stop_d2h);
+					cudaEventElapsedTime(&time_d2h_temp, start_d2h, stop_d2h);
+					time_d2h += time_d2h_temp;
+#endif
 
 					num_of_iteration_for_et = MAX_ITERATION;
 				}
@@ -467,24 +532,24 @@ int runTest()
 	time_kernel += time_kernel_temp;
 #endif
 
-#if MEASURE_CUDA_TIME == 1
-	cudaEventRecord(start_d2h, 0);
+//#if MEASURE_CUDA_TIME == 1
+	//cudaEventRecord(start_d2h, 0);
 	//cudaEventSynchronize(start_h2d);
-#endif
+//#endif
 
-for (int iSt = 0; iSt < NSTREAMS; iSt++)
-	{
-		checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
-	}
+//for (int iSt = 0; iSt < NSTREAMS; iSt++)
+//	{
+//		checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+//	}
 	
 	cudaDeviceSynchronize();
 
-#if MEASURE_CUDA_TIME == 1
-				cudaEventRecord(stop_d2h, 0);
-				cudaEventSynchronize(stop_d2h);
-				cudaEventElapsedTime(&time_d2h_temp, start_d2h, stop_d2h);
-				time_d2h += time_d2h_temp;
-#endif
+//#if MEASURE_CUDA_TIME == 1
+//				cudaEventRecord(stop_d2h, 0);
+//				cudaEventSynchronize(stop_d2h);
+//				cudaEventElapsedTime(&time_d2h_temp, start_d2h, stop_d2h);
+//				time_d2h += time_d2h_temp;
+//#endif
 
 #ifdef DISPLAY_BER
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
@@ -538,6 +603,8 @@ for (int iSt = 0; iSt < NSTREAMS; iSt++)
 		printf("kernel time = %f ms \nh2d time = %f ms \nd2h time = %f ms\n", time_kernel, time_h2d, time_d2h);
 		printf("memset time = %f ms \n", time_memset);
 		printf("time difference = %f ms \n", cpu_run_time - time_kernel - time_h2d - time_d2h - time_memset);
+
+		fprintf(result, "%d:%f:%f:%f:%f\n", NSTREAMS, time_kernel, time_h2d, time_d2h, throughput);
 #endif
 
 #ifdef DISPLAY_BER

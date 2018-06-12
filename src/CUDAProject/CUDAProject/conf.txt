@@ -1,0 +1,22 @@
+
+device name: GeForce 940MX
+device sharedMemPerBlock: 49152 
+device totalGlobalMem: 2147483648 
+device regsPerBlock: 65536 
+device warpSize: 32 
+device memPitch: 2147483647 
+device maxThreadsPerBlock: 1024 
+device maxThreadsDim[0]: 1024 
+device maxThreadsDim[1]: 1024 
+device maxThreadsDim[2]: 64 
+device maxGridSize[0]: 2147483647 
+device maxGridSize[1]: 65535 
+device maxGridSize[2]: 65535 
+device totalConstMem: 65536 
+device major: 5 
+device minor: 0 
+device clockRate: 1241500 
+device textureAlignment: 512 
+device deviceOverlap: 1 
+device multiProcessorCount: 3 
+device zero-copy data transfers: 1 
