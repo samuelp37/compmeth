@@ -140,31 +140,7 @@ int mainOfLDPC()
 	cudaSetDevice(DEVICE_ID);
 
 	printf("Beginning the algorithm...\r\n");
-	#undef NSTREAMS
-	#define NSTREAMS 1
 	runTest(result);
-	printf("1 stream done");
-
-	#undef NSTREAMS
-	#define NSTREAMS 5
-	runTest(result);
-	printf("5 streams done");
-
-	//#undef NSTREAMS
-	//#define NSTREAMS 10
-	//runTest(result);
-	//printf("10 streams done");
-
-	//#undef NSTREAMS
-	//#define NSTREAMS 15
-	//runTest(result);
-	//printf("15 streams done");
-
-	//#undef NSTREAMS
-	//#define NSTREAMS 20
-	//runTest(result);
-	//printf("20 streams done");
-
 	printf("End of the algorithm...\r\n");
 	fclose(gfp);
 	fclose(result);
