@@ -64,3 +64,51 @@ CPU time: 1097.784058 ms, for 50 simulations.
 Throughput = 1049.386719 Mbps
 End of the algorithm...
 
+
+
+With correct time from now on (kernel time)
+=================================
+GPU CUDA Demo
+SNR = 20.0 dB
+# codewords = 50000, # streams = 5, CW=10, MCW=100
+number of iterations = 0.0 
+CPU time: 1958.843994 ms, for 10 simulations.
+Throughput = 7.606313 Mbps
+Throughput (kernel only) = 1.521263 Mbps
+Throughput (kernel + transer time) = 1.103916 Mbps
+
+h2d (llr): size=9.216000 MB, bandwidthInMBs = 29.757317 MB/s
+d2h (hd): size=9.216000 MB, bandwidthInMBs = 31.706511 MB/s
+kernel time = 15145.314453 ms 
+h2d time = 2953.580322 ms 
+d2h time = 2772.005615 ms
+memset time = 0.246464 ms 
+time difference = -18912.302734 ms 
+# codewords = 10000, CW=10, MCW=100
+total bit error = 0
+BER = 0.00e+00, FER = 0.00e+00
+End of the algorithm...
+
+
+
+=================================
+GPU CUDA Demo
+SNR = 20.0 dB
+# codewords = 10000, # streams = 1, CW=10, MCW=100
+number of iterations = 0.0 
+CPU time: 393.105988 ms, for 10 simulations.
+Throughput = 7.580173 Mbps
+Throughput (kernel only) = 7.580173 Mbps
+Throughput (kernel + transer time) = 5.503828 Mbps
+
+h2d (llr): size=9.216000 MB, bandwidthInMBs = 148.621185 MB/s
+d2h (hd): size=9.216000 MB, bandwidthInMBs = 158.342224 MB/s
+kernel time = 3039.508545 ms 
+h2d time = 591.373474 ms 
+d2h time = 555.067505 ms
+memset time = 0.228128 ms 
+time difference = -3793.071777 ms 
+# codewords = 10000, CW=10, MCW=100
+total bit error = 0
+BER = 0.00e+00, FER = 0.00e+00
+End of the algorithm...

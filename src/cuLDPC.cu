@@ -19,8 +19,6 @@ Revision:	08/01/2013
 #include <memory.h>
 #include <math.h>
 
-#include <time.h>
-
 // CUDA runtime
 #include <cuda_runtime.h>
 #include "helper_cuda.h"
@@ -59,13 +57,16 @@ extern "C"
 	float sigma;
 	int *info_bin;
 	FILE * gfp;
+	FILE * conf;
+	FILE * result;
+
 
 };
 
 
-int printDevices();
-int runTest();
-int printDevices()
+int printDevices(FILE * conf);
+int runTest(FILE * result);
+int printDevices(FILE * conf)
 {
 	int deviceCount = 0;
 	checkCudaErrors(cudaGetDeviceCount(&deviceCount));
@@ -100,6 +101,29 @@ int printDevices()
 	printf("device deviceOverlap: %d \n", deviceProperty.deviceOverlap);
 	printf("device multiProcessorCount: %d \n", deviceProperty.multiProcessorCount);
 	printf("device zero-copy data transfers: %d \n", deviceProperty.canMapHostMemory);
+
+	fprintf(conf,"\ndevice name: %s", deviceProperty.name);
+	fprintf(conf,"\n");
+	fprintf(conf,"device sharedMemPerBlock: %Iu \n", deviceProperty.sharedMemPerBlock);
+	fprintf(conf,"device totalGlobalMem: %Iu \n", deviceProperty.totalGlobalMem);
+	fprintf(conf,"device regsPerBlock: %d \n", deviceProperty.regsPerBlock);
+	fprintf(conf,"device warpSize: %d \n", deviceProperty.warpSize);
+	fprintf(conf,"device memPitch: %Iu \n", deviceProperty.memPitch);
+	fprintf(conf,"device maxThreadsPerBlock: %d \n", deviceProperty.maxThreadsPerBlock);
+	fprintf(conf,"device maxThreadsDim[0]: %d \n", deviceProperty.maxThreadsDim[0]);
+	fprintf(conf,"device maxThreadsDim[1]: %d \n", deviceProperty.maxThreadsDim[1]);
+	fprintf(conf,"device maxThreadsDim[2]: %d \n", deviceProperty.maxThreadsDim[2]);
+	fprintf(conf,"device maxGridSize[0]: %d \n", deviceProperty.maxGridSize[0]);
+	fprintf(conf,"device maxGridSize[1]: %d \n", deviceProperty.maxGridSize[1]);
+	fprintf(conf,"device maxGridSize[2]: %d \n", deviceProperty.maxGridSize[2]);
+	fprintf(conf,"device totalConstMem: %Iu \n", deviceProperty.totalConstMem);
+	fprintf(conf,"device major: %d \n", deviceProperty.major);
+	fprintf(conf,"device minor: %d \n", deviceProperty.minor);
+	fprintf(conf,"device clockRate: %d \n", deviceProperty.clockRate);
+	fprintf(conf,"device textureAlignment: %Iu \n", deviceProperty.textureAlignment);
+	fprintf(conf,"device deviceOverlap: %d \n", deviceProperty.deviceOverlap);
+	fprintf(conf,"device multiProcessorCount: %d \n", deviceProperty.multiProcessorCount);
+	fprintf(conf,"device zero-copy data transfers: %d \n", deviceProperty.canMapHostMemory);
 		
 	printf("\n");
 	return cudaSuccess;
@@ -109,21 +133,26 @@ int printDevices()
 int mainOfLDPC()
 {
 	gfp = fopen("test.txt", "w");
+	conf = fopen("conf.txt", "w");
+	result = fopen("result.txt", "a+");
 	printf("CUDA LDPC Decoder\r\nComputing...\r\n");
-	printDevices();
+	printDevices(conf);
 	cudaSetDevice(DEVICE_ID);
 
 	printf("Beginning the algorithm...\r\n");
-	runTest();
+	runTest(result);
 	printf("End of the algorithm...\r\n");
 	fclose(gfp);
+	fclose(result);
+	fclose(conf);
+
 
 	return 0;
 }
 
 extern "C" int h_base[BLK_ROW][BLK_COL];
 
-int runTest()
+int runTest(FILE * result)
 {
 	h_element h_compact1[H_COMPACT1_COL][H_COMPACT1_ROW]; // for update dt, R
 	h_element h_element_temp;
@@ -194,7 +223,7 @@ int runTest()
 		}
 	}
 
-	printf("H matrices generated \r\n");
+	//printf("H matrices generated \r\n");
 
 	//int memorySize_h_base = BLK_ROW * BLK_COL * sizeof(int);
 	int memorySize_h_compact1 = H_COMPACT1_ROW * H_COMPACT1_COL * sizeof(h_element);
@@ -378,7 +407,7 @@ int runTest()
 
 #if MEASURE_CPU_TIME == 1
 			// cpu timer
-			cpu_run_time = 0.0;
+			float cpu_run_time = 0.0;
 			//Timer cpu_timer;
 			//cpu_timer.start();
 			StartTimer();
@@ -456,8 +485,18 @@ int runTest()
 
 					//printf("Getting the hard decision back to the host \r\n");
 					// getting the hard decision back to the host
-					//checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+#if MEASURE_CUDA_TIME == 1
+					cudaEventRecord(start_d2h, 0);
+					cudaEventSynchronize(start_h2d);
+#endif
+					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
 
+#if MEASURE_CUDA_TIME == 1
+					cudaEventRecord(stop_d2h, 0);
+					cudaEventSynchronize(stop_d2h);
+					cudaEventElapsedTime(&time_d2h_temp, start_d2h, stop_d2h);
+					time_d2h += time_d2h_temp;
+#endif
 
 					num_of_iteration_for_et = MAX_ITERATION;
 				}
@@ -469,24 +508,24 @@ int runTest()
 	time_kernel += time_kernel_temp;
 #endif
 
-#if MEASURE_CUDA_TIME == 1
-	cudaEventRecord(start_d2h, 0);
+//#if MEASURE_CUDA_TIME == 1
+	//cudaEventRecord(start_d2h, 0);
 	//cudaEventSynchronize(start_h2d);
-#endif
+//#endif
 
-for (int iSt = 0; iSt < NSTREAMS; iSt++)
-	{
-		checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
-	}
+//for (int iSt = 0; iSt < NSTREAMS; iSt++)
+//	{
+//		checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+//	}
 	
 	cudaDeviceSynchronize();
 
-#if MEASURE_CUDA_TIME == 1
-				cudaEventRecord(stop_d2h, 0);
-				cudaEventSynchronize(stop_d2h);
-				cudaEventElapsedTime(&time_d2h_temp, start_d2h, stop_d2h);
-				time_d2h += time_d2h_temp;
-#endif
+//#if MEASURE_CUDA_TIME == 1
+//				cudaEventRecord(stop_d2h, 0);
+//				cudaEventSynchronize(stop_d2h);
+//				cudaEventElapsedTime(&time_d2h_temp, start_d2h, stop_d2h);
+//				time_d2h += time_d2h_temp;
+//#endif
 
 #ifdef DISPLAY_BER
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
@@ -525,6 +564,7 @@ for (int iSt = 0; iSt < NSTREAMS; iSt++)
 		printf("# codewords = %d, # streams = %d, CW=%d, MCW=%d\r\n", total_codeword * NSTREAMS, NSTREAMS, CW, MCW);
 		printf("number of iterations = %1.1f \r\n", aver_iter);
 		printf("CPU time: %f ms, for %d simulations.\n", cpu_run_time, MAX_SIM);
+		float throughput = (float)CODEWORD_LEN * NSTREAMS * MCW * CW * MAX_SIM / cpu_run_time / 1000;
 		printf("Throughput = %f Mbps\r\n", (float)CODEWORD_LEN * NSTREAMS * MCW * CW * MAX_SIM / time_kernel / 1000);
 #endif
 
@@ -539,6 +579,8 @@ for (int iSt = 0; iSt < NSTREAMS; iSt++)
 		printf("kernel time = %f ms \nh2d time = %f ms \nd2h time = %f ms\n", time_kernel, time_h2d, time_d2h);
 		printf("memset time = %f ms \n", time_memset);
 		printf("time difference = %f ms \n", cpu_run_time - time_kernel - time_h2d - time_d2h - time_memset);
+
+		fprintf(result, "%d:%f:%f:%f:%f\n", NSTREAMS, time_kernel, time_h2d, time_d2h, throughput);
 #endif
 
 #ifdef DISPLAY_BER
