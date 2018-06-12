@@ -1,6 +1,25 @@
-﻿La génération a démarré 11/06/2018 18:51:18.
+﻿La génération a démarré 11/06/2018 20:25:21.
      1>Projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>Link:
+     1>AddCudaCompileDeps:
+         D:\appli\Microsoft Visual Studio\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /D_MBCS /D_CRT_SECURE_NO_WARNINGS /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I. /FIcuda_runtime.h /c D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC_kernel.cu 
+     1>Le projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1) génère "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" (1:5) sur le nœud 1 (CudaBuildCore cible(s)).
+     1>CudaBuildCore:
+         Compiling CUDA source file cuLDPC_kernel.cu...
+         cmd.exe /C "C:\Users\sam\AppData\Local\Temp\tmp40063d3a2c7647a6b3ba77cb9ae3ac76.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC_kernel.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC_kernel.cu"
+         
+         D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2013 -ccbin "D:\appli\Microsoft Visual Studio\VC\bin" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -D_CRT_SECURE_NO_WARNINGS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\cuLDPC_kernel.cu.obj "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\cuLDPC_kernel.cu" 
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC_kernel.cu(32): warning : variable "tmp" was declared but never referenced
+     1>D:/data/Travail/Samuel/Eurecom_2A/CompMeth/proj/src/CUDAProject/CUDAProject/cuLDPC_kernel.cu(32): warning : variable "tmp" was declared but never referenced
+         cuLDPC_kernel.cu
+     1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (CudaBuildCore cible(s)).
+     1>ClCompile:
+         D:\appli\Microsoft Visual Studio\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\include" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1\common\inc" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cuLDPC_CPU.cpp main.cpp mainContent.cpp
+         mainContent.cpp
+         main.cpp
+         cuLDPC_CPU.cpp
+         Génération de code en cours...
+       Link:
          D:\appli\Microsoft Visual Studio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib cuda.lib cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.lib" /MACHINE:X86 Debug\cuLDPC.cu.obj
          Debug\cuLDPC_kernel.cu.obj
          Debug\filters.cu.obj
@@ -10,9 +29,10 @@
          Debug\main.obj
          Debug\mainContent.obj
          Debug\random_generator.obj
+         LINK : D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
          CUDAProject.vcxproj -> D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\Debug\CUDAProject.exe
      1>Génération du projet "D:\data\Travail\Samuel\Eurecom_2A\CompMeth\proj\src\CUDAProject\CUDAProject\CUDAProject.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:00.60
+Temps écoulé 00:00:04.03
