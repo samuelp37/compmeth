@@ -35,6 +35,13 @@ float rate;
 int iter;
 float cpu_run_time = 0.0;
 
+cudaEvent_t start_kernel, stop_kernel, start_h2d, stop_h2d, start_d2h, stop_d2h;
+cudaEvent_t start_memset, stop_memset;
+float time_kernel = 0.0, time_kernel_temp = 0.0;
+float time_h2d = 0.0, time_h2d_temp = 0.0;
+float time_d2h = 0.0, time_d2h_temp = 0.0;
+float time_memset = 0.0f, time_memset_temp = 0.0;
+
 // Extern function and variable definition
 extern "C"
 {
@@ -91,7 +98,7 @@ int printDevices()
 	printf("device deviceOverlap: %d \n", deviceProperty.deviceOverlap);
 	printf("device multiProcessorCount: %d \n", deviceProperty.multiProcessorCount);
 	printf("device zero-copy data transfers: %d \n", deviceProperty.canMapHostMemory);
-
+		
 	printf("\n");
 	return cudaSuccess;
 }
@@ -296,6 +303,8 @@ int runTest()
 		// In this version code, I don't care the BER performance, so don't need this loop.
 		while ((total_frame_error <= MIN_FER) && (total_codeword <= MIN_CODEWORD))
 		{
+
+			printf("New iter\n");
 			total_codeword += CW * MCW;
 
 			// simulationg input channel
@@ -332,8 +341,8 @@ int runTest()
 
 #if MEASURE_CUDA_TIME == 1
 			// start the timer
-			cudaEvent_t start_kernel, stop_kernel, start_h2d, stop_h2d, start_d2h, stop_d2h;
-			cudaEvent_t start_memset, stop_memset;
+			//cudaEvent_t start_kernel, stop_kernel, start_h2d, stop_h2d, start_d2h, stop_d2h;
+			//cudaEvent_t start_memset, stop_memset;
 			cudaEventCreate(&start_kernel);
 			cudaEventCreate(&stop_kernel);
 			cudaEventCreate(&start_h2d);
@@ -343,10 +352,6 @@ int runTest()
 			cudaEventCreate(&start_memset);
 			cudaEventCreate(&stop_memset);
 
-			float time_kernel = 0.0, time_kernel_temp = 0.0;
-			float time_h2d = 0.0, time_h2d_temp = 0.0;
-			float time_d2h = 0.0, time_d2h_temp = 0.0;
-			float time_memset = 0.0f, time_memset_temp = 0.0;
 #endif
 
 			// Since for all the simulation, this part only transfer once. 
@@ -377,6 +382,7 @@ int runTest()
 			StartTimer();
 #endif
 
+			printf("Beginning running the kernel \r\n");
 			// run the kernel
 			for (int j = 0; j < MAX_SIM; j++)
 			{
@@ -385,6 +391,7 @@ int runTest()
 				//cudaEventSynchronize(start_h2d);
 #endif
 
+				printf("Transfering LLR data into device \r\n");
 				// Transfer LLR data into device.
 #if USE_PINNED_MEM == 1
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
@@ -420,6 +427,11 @@ int runTest()
 				time_memset += time_memset_temp;
 #endif
 
+#if MEASURE_CUDA_TIME == 1
+				cudaEventRecord(start_kernel, 0);
+#endif
+				printf("Performing computations in device part \r\n");
+
 				for (int iSt = 0; iSt < NSTREAMS; iSt++)
 				{
 					checkCudaErrors(cudaMemcpyAsync(dev_llr[iSt], llr_cuda[iSt], memorySize_llr_cuda, cudaMemcpyHostToDevice, streams[iSt]));
@@ -428,6 +440,7 @@ int runTest()
 					// Doing the algorithm
 					for (int ii = 0; ii < MAX_ITERATION; ii++)
 					{
+						printf("New iteration computation in device part \r\n");
 						if (ii == 0)
 							ldpc_cnp_kernel_1st_iter <<< dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
 						else
@@ -439,14 +452,32 @@ int runTest()
 							ldpc_vnp_kernel_last_iter <<< dimGridKernel2, dimBlockKernel2, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_hard_decision[iSt], dev_et[iSt]);
 					}
 
+					printf("Getting the hard decision back to the host \r\n");
 					// getting the hard decision back to the host
-					checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+					//checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
 
 
 					num_of_iteration_for_et = MAX_ITERATION;
 				}
 
-				cudaDeviceSynchronize();
+#if MEASURE_CUDA_TIME == 1
+	cudaEventRecord(stop_kernel, 0);
+	cudaEventSynchronize(stop_kernel);
+	cudaEventElapsedTime(&time_kernel_temp, start_kernel, stop_kernel);
+	time_kernel += time_kernel_temp;
+#endif
+
+#if MEASURE_CUDA_TIME == 1
+	cudaEventRecord(start_d2h, 0);
+	//cudaEventSynchronize(start_h2d);
+#endif
+
+for (int iSt = 0; iSt < NSTREAMS; iSt++)
+	{
+		checkCudaErrors(cudaMemcpyAsync(hard_decision_cuda[iSt], dev_hard_decision[iSt], memorySize_hard_decision_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
+	}
+	
+	cudaDeviceSynchronize();
 
 #if MEASURE_CUDA_TIME == 1
 				cudaEventRecord(stop_d2h, 0);
