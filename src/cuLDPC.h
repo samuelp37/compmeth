@@ -22,8 +22,8 @@ Revision:	08/01/2013
 #define MIN_SUM	YES		//otherwise, log-SPA
 
 // Simulation parameters
-#define NUM_SNR 6
-static float snr_array[NUM_SNR] = { 0.001f,1.0f, 3.0f, 6.0f, 10.0f, 20.0f };
+#define NUM_SNR 1
+static float snr_array[NUM_SNR] = {1.0f};
 #define MIN_FER         2000
 #define MIN_CODEWORD    9000
 #define MAX_ITERATION 5
