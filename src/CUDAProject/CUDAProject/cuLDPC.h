@@ -33,7 +33,7 @@ static float snr_array[NUM_SNR] = { 20.0f };
 #define NSTREAMS 3
 #define CW 10
 #define MCW 100
-#define MAX_SIM 10
+#define MAX_SIM 5
 
 #define MEASURE_CPU_TIME	YES		// whether measure time and throughput
 #define MEASURE_CUDA_TIME	YES		// whether measure CUDA memory transfer time and CUDA kernel time

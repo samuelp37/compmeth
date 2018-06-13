@@ -312,7 +312,7 @@ int runTest()
 		// In this version code, I don't care the BER performance, so don't need this loop.
 		while ((total_frame_error <= MIN_FER) && (total_codeword <= MIN_CODEWORD))
 		{
-			//printf("New iter\n");
+			printf("New iter\n");
 			total_codeword += CW * MCW;
 
 			// simulationg input channel
@@ -400,6 +400,7 @@ int runTest()
 			// run the kernel
 			for (int j = 0; j < MAX_SIM; j++)
 			{
+				printf("New sim\n");
 #if MEASURE_CUDA_TIME == 1
 				cudaEventRecord(start_h2d, 0);
 				//cudaEventSynchronize(start_h2d);
@@ -447,7 +448,7 @@ int runTest()
 					//checkCudaErrors(cudaMemcpyAsync(dev_llr_Q8[iSt], llr_cuda_Q8[iSt], memorySize_llr_cuda_Q8, cudaMemcpyHostToDevice, streams[iSt]));
 
 					// Now, need to convert again dev_llr_Q8 to dev_llr
-					conversion_Q8_float << < MCW*CW, CODEWORD_LEN >> >(dev_llr[iSt], dev_llr_Q8[iSt]);
+					conversion_Q8_float << < dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >> >(dev_llr[iSt], dev_llr_Q8[iSt]);
 
 					// To Delete when doing tests
 					//checkCudaErrors(cudaMemcpyAsync(llr_test[iSt], dev_llr[iSt], memorySize_llr_cuda, cudaMemcpyDeviceToHost, streams[iSt]));
@@ -462,7 +463,7 @@ int runTest()
 					{
 						//printf("New iteration computation in device part \r\n");
 						if (ii == 0)
-							ldpc_cnp_kernel_1st_iter <<< dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
+							ldpc_cnp_kernel_1st_iter << < dimGridKernel1, dimBlockKernel1, 0, streams[iSt] >> >(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt]);
 						else
 							ldpc_cnp_kernel <<< dimGridKernel1, dimBlockKernel1, sharedRCacheSize, streams[iSt] >>>(dev_llr[iSt], dev_dt[iSt], dev_R[iSt], dev_et[iSt], threadsPerBlockKernel1);
 
@@ -552,6 +553,7 @@ int runTest()
 	for (int iSt = 0; iSt < NSTREAMS; iSt++)
 	{
 		checkCudaErrors(cudaFree(dev_llr[iSt]));
+		checkCudaErrors(cudaFree(dev_llr_Q8[iSt]));
 		checkCudaErrors(cudaFree(dev_dt[iSt]));
 		checkCudaErrors(cudaFree(dev_R[iSt]));
 		checkCudaErrors(cudaFree(dev_hard_decision[iSt]));
