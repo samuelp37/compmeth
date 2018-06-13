@@ -21,6 +21,37 @@ Revision:	08/01/2013
 #include "cuLDPC_kernel.h"
 #include "device_launch_parameters.h"
 
+// Kernel 1
+__global__ void
+conversion_Q8_float(float * dev_llr, unsigned char * dev_llr_char)
+{
+	int	iCW = threadIdx.y; // index of CW in a MCW
+	int iMCW = blockIdx.y; // index of MCW
+	int iCurrentCW = iMCW * CW + iCW;
+
+	int iBlkCol;
+	int iSubCol;
+	int iCol;
+
+	int llr_index;
+
+	iBlkCol = blockIdx.x;
+	iSubCol = threadIdx.x;
+
+	int size_llr_CW = COL; // size of one llr CW block
+
+	// update all the llr values
+	iCol = iBlkCol * Z + iSubCol;
+	llr_index = size_llr_CW * iCurrentCW + iCol;
+
+	//dev_llr[iCurrentCW] = (float) dev_llr_char[iCurrentCW] * (1.0 / 256.0); former version --> not doing smart Q8 conversion
+
+	// reversing operations that have been done in host part
+	//printf("before : %d", dev_llr_char[iCurrentCW]);
+	dev_llr[llr_index] = ((float)dev_llr_char[llr_index]) * 2 - 255.;
+	//printf("after : %d", dev_llr[iCurrentCW]);
+}
+
 // MIN-SUM Function
 __device__ float F_FUCN_MIN_SUM_DEV(float a, float b)
 {
