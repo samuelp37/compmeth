@@ -544,7 +544,7 @@ int runTest(FILE * result)
 					total_frame_error += this_error.frame_error;
 				}
 #endif
-
+				iter_cnt++;
 #if ETA == 1
 				iter_num += num_of_iteration_for_et;
 				iter_cnt++;
@@ -573,7 +573,7 @@ int runTest(FILE * result)
 		printf("# codewords = %d, # streams = %d, CW=%d, MCW=%d\r\n", total_codeword * NSTREAMS, NSTREAMS, CW, MCW);
 		printf("number of iterations = %1.1f \r\n", aver_iter);
 		printf("CPU time: %f ms, for %d simulations.\n", cpu_run_time, MAX_SIM);
-		float throughput = (float)CODEWORD_LEN * NSTREAMS * MCW * CW * MAX_SIM / time_kernel / 1000;
+		float throughput = (float)CODEWORD_LEN * NSTREAMS * MCW * CW * MAX_SIM / (cpu_run_time + time_kernel + time_h2d + time_d2h) / 1000;
 		printf("Throughput = %f Mbps\r\n", (float)CODEWORD_LEN * NSTREAMS * MCW * CW * MAX_SIM / (cpu_run_time + time_kernel + time_d2h + time_h2d) / 1000);
 #endif
 
@@ -595,7 +595,7 @@ int runTest(FILE * result)
 #ifdef DISPLAY_BER
 		printf("# codewords = %d, CW=%d, MCW=%d\r\n", total_codeword, CW, MCW);
 		printf("total bit error = %d\n", total_bit_error);
-		printf("BER = %1.2e, FER = %1.2e\n", (float)total_bit_error / total_codeword / INFO_LEN, (float)total_frame_error / total_codeword);
+		printf("BER = %1.2e, FER = %1.2e\n", (float)total_bit_error / (total_codeword*INFO_LEN*iter_cnt*NSTREAMS), (float)total_frame_error / (total_codeword*iter_cnt));
 #endif
 	}// end of the snr loop
 
