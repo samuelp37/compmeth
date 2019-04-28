@@ -573,8 +573,8 @@ int runTest(FILE * result)
 		printf("# codewords = %d, # streams = %d, CW=%d, MCW=%d\r\n", total_codeword * NSTREAMS, NSTREAMS, CW, MCW);
 		printf("number of iterations = %1.1f \r\n", aver_iter);
 		printf("CPU time: %f ms, for %d simulations.\n", cpu_run_time, MAX_SIM);
-		float throughput = (float)CODEWORD_LEN * NSTREAMS * MCW * CW * MAX_SIM / cpu_run_time / 1000;
-		printf("Throughput = %f Mbps\r\n", (float)CODEWORD_LEN * NSTREAMS * MCW * CW * MAX_SIM / time_kernel / 1000);
+		float throughput = (float)CODEWORD_LEN * NSTREAMS * MCW * CW * MAX_SIM / (cpu_run_time + time_kernel + time_d2h + time_h2d) / 1000;
+		printf("Throughput = %f Mbps\r\n", throughput);
 #endif
 
 #if MEASURE_CUDA_TIME == 1
